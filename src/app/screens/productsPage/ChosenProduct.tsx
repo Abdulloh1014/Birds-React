@@ -14,7 +14,7 @@ import { FreeMode, Navigation, Thumbs } from "swiper";
 
 import { useDispatch, useSelector } from "react-redux";
 import { Dispatch } from "@reduxjs/toolkit";
-import { setRestaurant, setChosenProduct } from "./slice";
+import { setFounder, setChosenProduct } from "./slice";
 import { createSelector } from "reselect";
 import { retrieveChosenProduct, retrieveRestaurant } from "./selector";
 import { Product } from "../../../lib/types/product";
@@ -28,7 +28,7 @@ import { CartItem } from "../../../lib/types/search";
 
 /** REDUX SLICE & SELECTOR   */
 const actionDispatch = (dispatch: Dispatch) => ({
-  setRestaurant: (data: Member) => dispatch(setRestaurant(data)),
+  setRestaurant: (data: Member) => dispatch(setFounder(data)),
   setChosenProduct: (data: Product) => dispatch(setChosenProduct(data)),
 
 });

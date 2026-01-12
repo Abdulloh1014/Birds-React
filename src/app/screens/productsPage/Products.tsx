@@ -44,7 +44,7 @@ export default function Products(props: ProductsProps) {
         page: 1,
         limit: 8,
         order: "createdAt",
-        productCollection: ProductCollection.DISH,
+        productCollection: ProductCollection.PARROT,
         search: "",
      });
 
@@ -201,42 +201,42 @@ export default function Products(props: ProductsProps) {
 
                                 <Button variant={"contained"} 
                                     color={
-                                    productSearch.productCollection === ProductCollection.DISH 
+                                    productSearch.productCollection === ProductCollection.PARROT 
                                     ? "primary" : "secondary"}
-                                    onClick={() => searchCollectionHandler(ProductCollection.DISH)}>
-                                     DISH
+                                    onClick={() => searchCollectionHandler(ProductCollection.PARROT)}>
+                                     PARROT
                                 </Button>
 
                                 <Button variant={"contained"} 
                                     color={
-                                    productSearch.productCollection === ProductCollection.SALAD 
+                                    productSearch.productCollection === ProductCollection.CANARIES
                                     ? "primary" : "secondary"}
-                                    onClick={() => searchCollectionHandler(ProductCollection.SALAD)}>
-                                     SALAD
+                                    onClick={() => searchCollectionHandler(ProductCollection.CANARIES)}>
+                                     CANARIES
                                 </Button>
 
                                 <Button variant={"contained"} 
                                     color={
-                                    productSearch.productCollection === ProductCollection.DRINK 
+                                    productSearch.productCollection === ProductCollection.PIGEONS 
                                     ? "primary" : "secondary"}
-                                    onClick={() => searchCollectionHandler(ProductCollection.DRINK)}>
-                                     DRINK
+                                    onClick={() => searchCollectionHandler(ProductCollection.PIGEONS)}>
+                                     PIGEONS
                                 </Button>
 
                                 <Button variant={"contained"} 
                                     color={
-                                    productSearch.productCollection === ProductCollection.DESSERT 
+                                    productSearch.productCollection === ProductCollection.QUAILS 
                                     ? "primary" : "secondary"}
-                                    onClick={() => searchCollectionHandler(ProductCollection.DESSERT)}>
-                                     DESERT
+                                    onClick={() => searchCollectionHandler(ProductCollection.QUAILS)}>
+                                     QUALIS
                                 </Button>
 
                                 <Button variant={"contained"} 
                                     color={
-                                    productSearch.productCollection === ProductCollection.OTHER 
+                                    productSearch.productCollection === ProductCollection.PHEASANTS 
                                     ? "primary" : "secondary"}
-                                    onClick={() => searchCollectionHandler(ProductCollection.OTHER)}>
-                                     OTHER
+                                    onClick={() => searchCollectionHandler(ProductCollection.PHEASANTS)}>
+                                     PHEASANTS
                                 </Button>
 
                             </div>
@@ -247,9 +247,9 @@ export default function Products(props: ProductsProps) {
                                 products.map((product: Product) => {
                                     const imagePath = `${serverApi}/${product.productImages[0]}`;
                                     const sizeVolume = 
-                                    product.productCollection === ProductCollection.DRINK
+                                    product.productCollection === ProductCollection.PARROT
                                     ? product.productCollection + " litre"
-                                    : product.productSize + " size";
+                                    : product.productAge + " size";
                                     return (
                                         <Stack key={product._id} className={"product-card"}
                                         onClick={() => choseDishHandler(product._id)}

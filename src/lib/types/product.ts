@@ -1,4 +1,4 @@
-import { ProductCollection, ProductSize, ProductStatus } from "../enums/product.enum";
+import { BirdAge, Gender, ProductCollection,  ProductStatus } from "../enums/product.enum";
 
 export interface Product {
     _id: string;
@@ -7,8 +7,8 @@ export interface Product {
   productName: string;
   productPrice: number;
   productLeftCount: number;
-  productSize: ProductSize;
-  productVolume: number;
+   productAge: BirdAge;
+  productGender: Gender;
   productDesc?: string;
   productImages: string[];
   productViews: number;

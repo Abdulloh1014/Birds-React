@@ -1,13 +1,13 @@
 import React, { useEffect } from "react";
-import PopularDishes from "./PopularDishes";
+import PopularDishes from "./PopularProduct";
 import Statistics from "./Statistics";
-import NewDishes from "./NewDishes";
+import NewDishes from "./NewProduct";
 import ActiveUsers from "./ActiveUsers";
 import Advertisement from "./Advertisement";
 import Events from "./Events";
 import { useDispatch } from "react-redux";
 import { Dispatch } from "@reduxjs/toolkit";
-import {setNewDishes, setPopularDishes, setTopUsers} from "./slice";
+import {setNewProduct, setPopularProduct, setTopUsers} from "./slice";
 import { Product } from "../../../lib/types/product";
 import ProductService from "../../services/ProductService";
 import { ProductCollection } from "../../../lib/enums/product.enum";
@@ -21,15 +21,15 @@ import "./../../../css/home.css";
 /** REDUX SLICE & SELECTOR   */
 
 const actionDispatch = (dispatch: Dispatch) => ({
-  setPopularDishes: (data: Product[]) => dispatch(setPopularDishes(data)),
-  setNewDishes: (data: Product[]) => dispatch(setNewDishes(data)),
+  setPopularProduct: (data: Product[]) => dispatch(setPopularProduct(data)),
+  setNewProduct: (data: Product[]) => dispatch(setNewProduct(data)),
   setTopUsers: (data: Member[]) => dispatch(setTopUsers(data)),
 
 });
 
 
 export default function HomePage() {
-  const { setPopularDishes, setNewDishes, setTopUsers } = actionDispatch(useDispatch());
+  const { setPopularProduct, setNewProduct, setTopUsers } = actionDispatch(useDispatch());
 
 
 useEffect(() => {
@@ -40,11 +40,11 @@ useEffect(() => {
     page: 1,
     limit: 4,
     order: "productViews",
-    productCollection: ProductCollection.DISH,   
+    productCollection: ProductCollection.PARROT,   
   })     //backend dan data olish
   
   .then((data) => {
-    setPopularDishes(data);   // olingan datani slicega yuborish
+    setPopularProduct(data);   // olingan datani slicega yuborish
   })
   .catch((err) => console.log(err));
 
@@ -56,7 +56,7 @@ useEffect(() => {
     // productCollection: ProductCollection.DISH,
   })
   .then((data) => {
-    setNewDishes(data);
+    setNewProduct(data);
   })
   .catch((err) => console.log(err));
 

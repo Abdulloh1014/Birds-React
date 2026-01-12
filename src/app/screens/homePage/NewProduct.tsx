@@ -40,9 +40,9 @@ export default function NewDishes() {
                         { newDishes.length !== 0 ? (newDishes.map((product: Product) => {
                             const imagePath = `${serverApi}/${product.productImages[0]}`;
                             const sizeVoleme = 
-                            product.productCollection === ProductCollection.DRINK
-                            ? product.productVolume + " l"
-                            : product.productSize + " size";
+                            product.productCollection === ProductCollection.PARROT
+                            ? product.productAge + " l"
+                            : product.productGender + "";
                             return (
                                 <Card key={product._id} variant="outlined" className={"card"}>
                                     <CardOverflow>

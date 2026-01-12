@@ -6,12 +6,12 @@ const selectHomePage = (state: AppRootState) => state.homePage;
 
 export const retrievePopularDishes = createSelector(
     selectHomePage,
-    (homePage) => homePage.popularDishes
+    (homePage) => homePage.popularProduct
 );
 
 export const retrieveNewishes = createSelector(
     selectHomePage,
-    (homePage) => homePage.newDishes
+    (homePage) => homePage.newProduct
 );
 
 export const retrieveTopUsers = createSelector(
