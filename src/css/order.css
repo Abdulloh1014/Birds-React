@@ -1,0 +1,401 @@
+.order-page {
+    width: 100%;
+    height: auto;
+    background: #f8f8ff;
+    display: flex;
+    /* background-color: rgba(58, 135, 203, 1); */
+}
+
+.order-page .order-container {
+    margin-top: 50px;
+    margin-bottom: 50px;
+    display: flex;
+    flex-direction: row;
+        /* background-color: rgba(58, 135, 203, 1); */
+        display: flex;
+        justify-content: space-between;
+
+}
+
+.order-page .order-left {
+    width: 860px;
+    height: auto;
+}
+
+.order-page .order-right {
+    width: 360px;
+    height: auto;
+    margin-top: 86px;
+    margin-left: 30px;
+    display: flex;
+    flex-direction: column;
+}
+
+.order-page .order-right .order-info-box {
+    width: 360px;
+    height: auto;
+    padding: 20px;
+    display: flex;
+    background: #f8f8ff;
+    border-radius: 16px;
+    box-shadow: 14px 14px 5px 0px rgba(187, 187, 191, 1),
+                inset 0px 1px 11px 12px rgba(211, 211, 231, 1),
+                inset 0px 4px 16px 0px rgba(242, 189, 87, 0.04);
+    margin-bottom: 25px;
+}
+
+.order-page .order-right .order-info-box .member-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.order-dish-img{
+    margin-top: 9px;
+}
+
+
+.order-page .order-right .order-info-box .member-box .liner {
+    width: 100%;
+    border: 1px solid #a1a1a1;
+    margin-top: 40px;
+    margin-bottom: 8px;
+}
+
+.order-page .order-info-box .order-user-img {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.order-page .order-info-box .order-user-img .order-user-avatar {
+    width: 117px;
+    height: 117px;
+    border-radius: 67px;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+}
+
+.order-page .order-main-box .order-box-scroll .orders-name-price .title-dish {
+     color: rgba(0, 0, 0, 1);
+
+font-family: 'Commissioner';
+font-size: 22px;
+font-weight: 500;
+line-height: 36px;
+letter-spacing: 0%;
+text-align: left;
+}
+
+.order-page .order-info-box .order-user-icon-box {
+    position: absolute;
+    padding: 5px;
+    width: 30px;
+    height: 30px;
+    top: 81%;
+    right: 0;
+    display: flex;
+    background: rgba(92, 89, 89, 0.33);
+    border-radius: 37px;
+}
+
+.order-page .order-info-box .order-user-icon-box .order-user-prof-img {
+    width: 100%;
+    height: 100%;
+    filter: invert(36%) sepia(89%) saturate(3000%) hue-rotate(200deg);
+}
+
+.order-page .order-info-box .order-user-name {
+    color: rgba(8, 9, 13, 1);
+    font-family: 'Commissioner';
+    font-size: 28px;
+    font-weight: 500;
+    line-height: 36px;
+    margin: 0px;
+    margin-top: 16px;
+}
+
+.order-page .order-info-box .order-user {
+    color: rgba(161, 161, 161, 1);
+    font-family: 'Commissioner';
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 36px;
+    margin: 0px;
+}
+
+.order-page .order-right .order-info-box .member-box .location {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: flex-start;
+    gap: 9px;
+    margin-left: 25px;
+}
+
+.order-page .order-right .order-info-box .member-box .location .location-info {
+    color: rgba(0, 0, 0, 1);
+    font-family: DM Sans;
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 24px;
+}
+
+.order-page .order-right .order-info-box .member-box .location .user-location {
+    width: 24px;
+    height: 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 17px;
+    color: black;
+}
+
+
+
+
+/* PAUSED CARD !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! */
+/* INPUT CARD !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! */
+/* INPUT CARD !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! */
+
+
+
+.order-page .order-container .input-card-info {
+    background-color: aqua;
+    width: 360px;
+    height: auto;
+    padding: 20px;
+    display: flex;
+    background: #f8f8ff;
+    border-radius: 16px;
+    box-shadow: 14px 14px 5px 0px rgba(187, 187, 191, 1),
+                inset 0px 1px 11px 12px rgba(211, 211, 231, 1),
+                inset 0px 4px 16px 0px rgba(242, 189, 87, 0.04);
+    margin-top: 25px;
+    gap: 15px;
+    justify-content: center;
+    align-items: center;
+    /* background-color: chocolate; */
+}
+
+
+.order-page .order-container .input-card-info input{
+    border-radius: 6px;
+    box-sizing: border-box;
+    border: 1px solid rgba(180, 170, 170, 1);
+    border-radius: 5px;
+    background: rgba(245, 245, 245, 1);
+    padding: 9px;
+}
+
+.order-page .order-container .input-card-info .input-check-cards .plast {
+     width: 45px;
+     height: 45px;
+}
+
+.order-page .order-container .input-card-info .input-sana{
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+}
+
+
+.order-page .order-container .input-card-info .input-check-cards{
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+    justify-content: space-around;
+    margin-top: 24px;
+}
+
+
+/** PAUSED ORDERS !!!!!!!!!!!!!!!!!!!!!!!!!!! */
+/** PAUSED ORDERS !!!!!!!!!!!!!!!!!!!!!!!!!!! */
+/** PAUSED ORDERS !!!!!!!!!!!!!!!!!!!!!!!!!!! */
+
+
+
+.order-page .order-main-box{
+    /* background-color: aquamarine; */
+    display: flex;
+    flex-direction: column;
+    width: 890px;
+    height: auto;
+    padding: 20px;
+    /* background-color: rgb(77, 42, 165); */
+}
+
+/* .order-page .order-main-box .order-box-scroll .orders-name-price img{
+    width: 57px;
+    height: 57px;
+    border-radius: 50%;
+    gap: 30px;
+    margin-bottom: 10px;
+} */
+
+.order-dish-img{
+    width: 57px;
+    height: 57px;
+    object-fit: cover;
+    border-radius: 8px;
+    flex-shrink: 0;
+    border-radius: 50%;
+}
+
+
+/* .order-page .order-main-box .order-box-scroll .orders-name-price img{
+    width: 87px;
+    height: 57px;
+    object-fit: cover;   
+    border-radius: 8px; 
+} */
+
+
+
+
+.order-page .order-main-box .order-box-scroll{
+    display: flex;
+    flex-direction: column;
+    width: 830px;
+    height: auto;
+    
+    /* background-color: blue; */
+}
+
+.order-page .order-main-box .order-box-scroll .orders-name-price{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 800px;
+    height: 150;
+    gap: 40px;
+     align-items: center;
+}
+
+.order-page .order-main-box .order-box-scroll .orders-name-price .title-dish {
+/* background-color: tomato; */
+width: 200px;
+height: auto;
+}
+    
+
+.order-page .order-main-box .order-box-scroll .orders-name-price .price-box  img{
+    width: 27px;
+    height: 27px;
+    padding-top: 9px;
+}
+
+.order-page .order-main-box .order-box-scroll .orders-name-price .price-box  p{
+  color: rgba(38, 38, 38, 0.88);
+
+font-family: Poppins;
+font-size: 18px;
+font-weight: 400;
+line-height: 27px;
+letter-spacing: 0%;
+text-align: left;
+
+}
+
+.order-page .order-main-box .order-box-scroll .orders-name-price .price-box{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    margin-right: 80px;
+    width: 100%;
+    height: auto;
+    align-items: center; 
+    gap: 13px;
+    width: 525px;
+    height: 60px;
+}
+
+
+
+
+/** TOTAL PRICE */
+
+.order-page .order-main-box .total-price-box{
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: row;
+
+}
+
+
+.order-page .order-main-box .total-price-box .box-total{
+    width: 540px;
+    height: 55px;
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+}
+
+
+.order-page .order-main-box .total-btn{
+    display: flex;
+    margin-top: 10px;
+    gap: 30px;
+    width: 290px;
+    height: 40px;
+}
+
+.order-page .order-main-box .total-btn .pay-button{
+    background-color:rgba(112, 180, 91, 1);
+    color: rgba(255, 255, 255, 1);
+    margin-left: 70px;
+    font-weight: bolder;
+
+}
+
+.order-page .order-main-box .total-btn .cancel-button{
+        font-weight: bolder;
+
+}
+
+
+.order-page .order-main-box .total-price-box .verify-button{
+    margin-left: 47px;
+    width: 148px;
+    height: 36px;
+    margin-top: 15px;
+    padding: 0px;
+    background-color:  rgba(58, 135, 203, 1);
+     color: rgba(255, 255, 255, 1);
+     border-radius: 10px;
+box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+font-weight: bolder;
+     
+}
+
+
+
+
+.order-page .order-main-box {
+       border-radius: 16px;
+    border-radius: 16px;
+box-shadow: -12px 12px 4px 0px rgba(186, 186, 191, 1),inset 0px 4px 10px 9px rgba(211, 211, 231, 1),inset 0px 4px 16px 0px rgba(242, 189, 87, 0.04);
+background: rgba(248, 248, 254, 1);
+                margin-bottom: 64px;
+}
+
+
+
+.order-page .order-main-box .total-price-box .box-total img {
+    width: 20px;
+    object-fit: contain;
+}
+
+
+
+
+
+.order-page .order-main-box .order-box-scroll {
+    display: flex;
+    flex-direction: column;
+    width: 830px;
+    max-height: 230px; /* kerakli balandlik */
+    overflow-y: auto;  /* vertical scroll paydo bo‘ladi */
+}

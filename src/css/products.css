@@ -1,0 +1,601 @@
+.products-page {
+    position: relative;
+    width: 100%;
+    height: auto;
+    background: #f8f8ff;
+}
+
+/* P R O D U C T S*/
+
+
+.products-page .products {
+    width: 100%;
+    height: auto;
+    display: flex;
+    background: #f8f8ff;
+    flex-direction: column;
+}
+
+
+.inputt{
+    margin-right: 40px;
+    
+}
+
+.inputt input{
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
+}
+
+
+.products-page .products .rest-sarlavxa-bolim {
+     display: flex;
+     width: 1220px;
+     height: auto;
+     flex-direction: row;
+     justify-content: space-between;
+     margin-top: 100px;
+}
+
+
+.burak-sarlavxa{
+    font-family: "Dancing Script";
+    font-style: normal; 
+    font-weight: 600;
+    font-size: 36px;
+    line-height: 43px;
+    margin-left: 340px;
+}
+
+.right-top-btn .btn-group{
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: row;
+    width: 100%;
+    height: auto;
+    margin-left: 880px;
+    margin-top: 70px;
+    gap: 17px;
+
+}
+
+/*  BBBBB tttttt NNNNNN. */
+
+.cards-btn {
+    margin-top: 34px;
+}
+
+.right-top-btn{
+    height: auto;
+    width: 1200px;
+    display: flex;
+    justify-content: flex-end;
+    flex-direction: row;
+
+}
+
+
+
+.product-card {
+  width: 260px;
+  border-radius: 0 48px 0 0;
+  overflow: hidden;
+ 
+  transition: 0.3s;
+}
+
+
+
+.product-img {
+  position: relative;
+  width: 273px;
+  height: 275px;
+  background-size: cover;
+  background-position: center;
+}
+
+
+
+
+
+.product-www {
+  /* background-color: aqua; */
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  color: rgba(227, 192, 141, 1);
+
+font-family: Poppins;
+font-size: 24px;
+font-weight: 600;
+line-height: 36px;
+letter-spacing: 0%;
+text-align: left;
+}
+
+.product-sale {
+  position: absolute;
+  font-family: Poppins;
+      font-style: normal;
+
+  top: 10px;
+  left: 10px;                   
+  background: #ff8c00;
+  color: white;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+  height: 30px;
+  width:100px;
+}
+
+.product-img button {
+  position: absolute;
+  bottom: 10px;
+  opacity: 0;
+  transition: 0.3s;
+}
+
+.product-img button:first-of-type {
+  left: 10px;
+}
+
+.product-img .view-btn {
+  right: 10px;
+}
+
+.product-img:hover button {
+  opacity: 1;
+  
+}
+
+.MuiBadge-root {
+  opacity: 0;
+  transition: 0.3s;
+}
+
+.product-img:hover .MuiBadge-root {
+  opacity: 1;
+}
+
+.product-card > div:last-child {
+  padding: 10px 12px;
+}
+
+.product-title {
+        font-family: Poppins;
+  font-style: normal;
+    font-weight: 600;
+  font-weight: 600;
+  font-size: 20px;
+  margin-bottom: 6px; 
+  display: block;
+}
+
+.product-price {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: #bfa56a;
+  font-weight: 500;
+
+}
+
+.no-data {
+    /* width: 100%;
+    height: 300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-transform: capitalize;
+    font-family: "Poppins";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 30px;
+    line-height: 34px;
+    color: #e3c08d;
+    margin-left: 300px; */
+    width: 100%;
+  height: 500px;
+  margin-left: 300px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-transform: capitalize;
+  font-family: "Poppins";
+  font-size: 30px;
+  color: #e3c08d;
+}
+
+
+
+
+
+.products .cards-frame {
+    display: flex;
+    height: 800px;
+    width: 100%;
+    flex-direction: row;
+    margin-top: 50px;
+    /* justify-content: space-between; */
+     align-items: flex-start;
+     /* background-color: aqua; */
+}
+
+
+.products .cards-frame .cards-btn .card-left-btn {
+    display: flex;
+    height: auto;
+    flex-direction: column-reverse;
+    gap: 14px;
+}
+
+.products .cards-frame .cards-btn .card-left-btn button {
+    writing-mode: vertical-lr;  
+    text-orientation: sideways; 
+    transform: rotate(180deg); 
+    padding: 18px 10px;
+    min-width: auto;
+}
+
+
+/* Menular. !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! */
+
+
+
+
+
+
+.products .cards-frame .cards-btn .card-left-btn {
+    display: flex;           
+    flex-direction: column;      
+    justify-content: flex-end; 
+    align-items: center;         
+    gap: 14px;                  
+}
+
+
+.products .cards-frame .product-wrapper {
+    display: flex;               
+    flex-direction: row;         
+    justify-content: flex-start; 
+    align-items: flex-start;     
+    gap: 30px;                  
+    flex-wrap: wrap;  
+    margin-left: 24px;
+          
+}
+
+
+.products .cards-frame .product-wrapper .product-card {
+    display: flex;
+    flex-direction: column;      
+    justify-content: space-between; 
+    align-items: center;         
+}
+
+
+.narx{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin: 0px;
+    
+
+}
+
+.sena{
+     text-align: center;
+    font-family: Poppins;
+    font-size: 24px;
+    font-weight: 600;
+    color: #d7b686;
+    padding: 0;
+    margin: 0;
+    
+}
+
+
+.shopping-icon {
+    background-color: rgb(159, 70, 189);
+    padding: 11px 19px;
+    border-radius: 9px;
+    border:  2px solid gold;
+  background-color: rgba(159, 70, 189, 0.7);
+  margin-left: 80px;
+      cursor: pointer;
+      position: relative;
+      
+
+}
+
+
+
+
+
+
+.product-img:before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(45, 44, 44, 0.538); 
+  opacity: 0;
+  transition: 0.3s;
+  z-index: 1;
+}
+
+.product-img:hover:before {
+  opacity: 1;
+}
+
+
+.product-img > * {
+  position: relative;
+  z-index: 2;
+}
+
+
+
+
+/** BRAND LOGO */
+
+.burak-box img {
+    width: 228px;
+    height: 321px;
+} 
+
+
+.logo-text {
+    font-family: Roboto, sans-serif;
+    font-size: 36px;
+    font-weight: 700;
+    line-height: 42px;
+    color: #e3c08d;
+    text-align: center;
+    margin-top: 60px;
+}
+
+.brand-logo {
+   height: 630px;
+   width: 100%;
+ background: rgba(13, 21, 24, 1);
+ margin-top: 55px;
+}
+
+.brand-logo .burak-foto {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 53px;
+      margin-top: 60px;
+
+}
+
+.brand-logo .burak-foto .burak-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+    width: 238px;
+    height: 331px;
+    border-radius: 20px;
+box-shadow: 0px 0px 22px 0px rgba(228, 212, 212, 1);
+background: rgba(13, 21, 24, 1);
+}
+
+
+/** !!!!!!!!!!!!!!!!  ADDRESS !!!!!!!!!!!!!!!!!!!  **/
+
+
+
+
+.address .address-area .title{
+  
+        font-family: "Dancing Script";
+    font-style: normal; 
+    font-weight: 600;
+    font-size: 36px;
+    line-height: 43px;
+    margin-top: 40px;
+    margin-bottom: 40px;
+    
+}
+
+
+.address .address-area iframe{
+  display: flex;
+  cursor: pointer;
+}
+
+
+.address .address-area{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 44px;
+}
+
+
+
+
+/** ChosenProduct */
+
+/** ChosenProduct **/
+
+.products-page .chosen-product {
+  position: relative;
+  width: 100%;
+  height: auto;
+  background: #f8f8ff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.products-page .chosen-product .product-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-top: 80px;
+  margin-bottom: 150px;
+}
+
+.products-page .chosen-product .chosen-product-slider {
+  width: 48%;
+  height: 480px;
+  background: #ffffff;
+  box-shadow: 9px 13px 14px 5px rgba(0, 0, 0, 0.25),
+    inset -1px 2px 10px 3px rgba(0, 0, 0, 0.25);
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.products-page .chosen-product .chosen-product-slider .swiper-area {
+  --swiper-navigation-color: #fff;
+  --swiper-pagination-color: #fff;
+  width: 100%;
+  height: 1020px;
+}
+
+.products-page
+  .chosen-product
+  .chosen-product-slider
+  .swiper-area
+  .slider-image {
+  width: 100%;
+  height: 100%;
+}
+
+.products-page .chosen-product .chosen-product-info {
+  padding: 30px 40px;
+  width: 49%;
+  height: 480px;
+  display: flex;
+  background: #ffffff;
+  box-shadow: 9px 13px 14px 5px rgba(0, 0, 0, 0.25),
+    inset -1px 2px 10px 3px rgba(0, 0, 0, 0.25);
+  border-radius: 16px;
+}
+
+.products-page .chosen-product .chosen-product-info .info-box {
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.products-page .chosen-product .info-box .product-name {
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 30px;
+  line-height: 36px;
+  color: #000000;
+}
+
+.products-page .chosen-product .info-box .resto-name {
+  margin-top: 16px;
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 17px;
+  line-height: 15px;
+  color: #979797;
+}
+
+.products-page .chosen-product .info-box .rating-box {
+  margin-top: 20px;
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.products-page .chosen-product .rating-box .star-box {
+  width: auto;
+  height: auto;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.products-page .chosen-product .rating-box .evaluation-box {
+  width: auto;
+  height: auto;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.products-page .chosen-product .rating-box .evaluation-box .product-view {
+  display: flex;
+  align-items: center;
+}
+
+.products-page .chosen-product .info-box .product-desc {
+  height: 112px;
+  margin-top: 30px;
+  margin-bottom: 30px;
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 22px;
+  color: #000000;
+}
+
+.products-page .chosen-product .info-box .product-price {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.products-page .chosen-product .product-price span {
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 25px;
+  line-height: 22px;
+  color: #000000;
+}
+
+.products-page .chosen-product .button-box {
+  width: 100%;
+  height: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.products-page .chosen-product .button-box button {
+  width: 230px;
+  height: 44px;
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 15px;
+  line-height: 22px;
+  color: #f8f8ff;
+}
+
+.products-page .chosen-product .title {
+  font-family: "Dancing Script";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 36px;
+  line-height: 43px;
+  margin-top: 40px;
+}
+
+.basket-icon {
+   width: 24px;
+  height: 24px;
+ 
+}
