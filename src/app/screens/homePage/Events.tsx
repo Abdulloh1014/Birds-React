@@ -3,7 +3,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import SwiperCore, { Autoplay, Navigation, Pagination } from "swiper";
 import { plans } from "../../../lib/data/plans";
 
-SwiperCore.use([Autoplay, Navigation, Pagination]);
+SwiperCore.use([ Navigation, Pagination]);
 
 export default function Events() {
   return (
@@ -67,6 +67,8 @@ export default function Events() {
             );
           })}
         </Swiper>
+
+
         <Box className={"prev-next-frame"}>
           <img
             src={"/icons/arrow-right.svg"}

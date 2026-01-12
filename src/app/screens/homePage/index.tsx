@@ -71,7 +71,7 @@ useEffect(() => {
 
 
   return <div className={"homepage"}>
-    <Statistics/>
+    {/* <Statistics/> */}
     <PopularDishes/>
     <NewDishes/>
     <Advertisement/>

@@ -6,7 +6,7 @@ export default function Advertisement() {
 
             <video
             className={"ads-video"}
-            autoPlay={true}
+            // autoPlay={true}
             loop
             muted
             playsInline
