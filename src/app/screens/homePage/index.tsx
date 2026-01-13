@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import PopularDishes from "./PopularProduct";
-import Statistics from "./Statistics";
 import NewDishes from "./NewProduct";
 import ActiveUsers from "./ActiveUsers";
 import Advertisement from "./Advertisement";
@@ -71,7 +70,6 @@ useEffect(() => {
 
 
   return <div className={"homepage"}>
-    {/* <Statistics/> */}
     <PopularDishes/>
     <NewDishes/>
     <Advertisement/>
