@@ -39,7 +39,7 @@ useEffect(() => {
     page: 1,
     limit: 4,
     order: "productViews",
-    productCollection: ProductCollection.PARROT,   
+    // productCollection: ProductCollection.PARROT, 
   })     //backend dan data olish
   
   .then((data) => {

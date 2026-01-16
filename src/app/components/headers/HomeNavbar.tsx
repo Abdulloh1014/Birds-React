@@ -45,7 +45,7 @@ export default function HomeNavbar(props: HomeNavbarProps) {
   useEffect(() => {
     const interval = setInterval(() => {
       setIndex((prev) => (prev + 1) % banners.length);
-    }, 3000);
+    }, 3000000);
 
     return () => clearInterval(interval);
   }, []);
@@ -62,7 +62,7 @@ export default function HomeNavbar(props: HomeNavbarProps) {
 
         <Stack className="links">
           <Box className="hover-line">
-            <NavLink to="/" activeClassName="underline">Home</NavLink>
+            <NavLink exact to="/" activeClassName="underline">Home</NavLink>
           </Box>
 
           <Box className="hover-line">

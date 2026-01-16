@@ -8,15 +8,12 @@ import { CssVarsProvider } from "@mui/joy/styles";
 import CardOverflow from "@mui/joy/CardOverflow";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import DescriptionOutlinedIcon from "@mui/icons-material/DescriptionOutlined";
-import Divider from "@mui/joy/Divider";
-
 
 import { useSelector } from "react-redux";
 import { createSelector } from "reselect";
 import { retrievePopularProduct } from "./selector";
 import { Product } from "../../../lib/types/product";
 import { serverApi } from "../../../lib/config";
-import { AspectRatio } from "@mui/joy";
 
 
 const popularProductRetriever = createSelector(
@@ -33,9 +30,7 @@ export default function PopularDishes() {
     <div className="popular-dishes-frame">
       <Container>
 
-        <Stack className="cards-frame fade-up">
-
-           <Stack className="popular-section">
+        <Stack className="popular-section">
          <Box className="category-title">Popular Product</Box>
           <Stack className="cards-frame">
             { popularProduct.length !== 0 ? (
@@ -45,55 +40,60 @@ export default function PopularDishes() {
                 <CssVarsProvider key={product._id}>
 
 
-      <Card variant="outlined" sx={{ width: 290,  height: 410, borderRadius: 21, }}>
 
-      <CardOverflow  sx={{ p: 0, overflow: "hidden", }}>
-          <img src={imagePath} alt="" style={{
-               width: "100%",
-               height: "340px",  
-               objectFit: "cover",
-               display: "block",
-                     }} />
-      </CardOverflow>
-       
-       
-      <CardContent sx={{pt: "0px"}}>
-        <Typography sx={{ fontWeight: "md", fontSize:"22px", color: "#1A1A1A"}}
-         > {product.productName}
-         </Typography>
+                  <Card className="card">
+                    <CardCover>
+                      <img src={imagePath} alt="" />
+                    </CardCover>
 
-        <Typography level="body-sm">
-          {product.productGender}
-          </Typography>
-      </CardContent>
-          
+                    <CardCover className="card-cover" />
 
-      <CardOverflow variant="soft" sx={{ bgcolor: 'background.level1' }}>
-        <Divider inset="context" />
-        <CardContent orientation="horizontal">
-          <Typography
-                        sx={{
-                            fontWeight: "md",
-                            color: "black",
+                    <CardContent sx={{ justifyContent: "flex-end" }}>
+                      <Stack 
+                      flexDirection={"row"} 
+                      justifyContent={"space-between"}>
+
+                        <Typography 
+                        level="h2" 
+                        fontSize="lg" 
+                        textColor="#fff" 
+                        mb={1}>
+
+                          {product.productName}
+                        </Typography>
+
+                        <Typography
+                          sx={{
+                            
+                            color: "neutral.300",
                             alignItems: "center",
                             display: "flex",
                           }}
-          >
-           {product.productViews}  
-           <VisibilityIcon sx={{ fontSize: 15, marginLeft: "5px", color: "#374151"  }} />
-          </Typography>
-          <Divider orientation="vertical" />
-          <Typography
-            level="body-xs"
-            fontSize="md"
-            textColor="#6B7280"
-            sx={{ fontWeight: 'md' }}
-          >
-           {product.productAge}
-          </Typography>
-        </CardContent>
-      </CardOverflow>
-    </Card>
+                        >
+                          {product.productViews}
+                          <VisibilityIcon sx={{ fontSize: 25, marginLeft: "5px" }} />
+                        </Typography>
+                      </Stack>
+                    </CardContent>
+
+                    <CardOverflow
+                      sx={{
+                        display: "flex",
+                        gap: 1.5,
+                        py: 1.5,
+                        px: "var(--Card-padding)",
+                        borderTop: "1px solid",
+                        height: "60px",
+                      }}
+                    >
+                      <Typography 
+                      startDecorator={<DescriptionOutlinedIcon />} 
+                      textColor="neutral.300">
+                        {product.productDesc}
+                      </Typography>
+                    </CardOverflow>
+                  </Card>
+
 
                   
                 </CssVarsProvider>
@@ -110,13 +110,10 @@ export default function PopularDishes() {
           </Stack>
         </Stack>
 
-        </Stack>
-
-       
-
       </Container>
     </div>
   );
 }
+
 
 

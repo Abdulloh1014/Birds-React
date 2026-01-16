@@ -34,7 +34,7 @@ export default function NewDishes() {
         <div className={"new-products-frame"}>
            <Container>
              <Stack className={"main"}>
-                 <Box className={"category-title"}>Fresh Menu</Box>
+                 <Box className={"category-title"}>Fresh Product</Box>
                    <Stack className={"cards-frame"}>
                       <CssVarsProvider>
                         { newProduct.length !== 0 ? (newProduct.map((product: Product) => {
