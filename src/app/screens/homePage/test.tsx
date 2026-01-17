@@ -1,119 +1,96 @@
+
 import React from "react";
-import { Box, Container, Stack } from "@mui/material";
+import { Container, Box, Stack } from "@mui/material";
+import AspectRatio from "@mui/joy/AspectRatio";
 import Card from "@mui/joy/Card";
-import CardCover from "@mui/joy/CardCover";
-import CardContent from "@mui/joy/CardContent";
-import Typography from "@mui/joy/Typography";
-import { CssVarsProvider } from "@mui/joy/styles";
 import CardOverflow from "@mui/joy/CardOverflow";
-import VisibilityIcon from "@mui/icons-material/Visibility";
-import DescriptionOutlinedIcon from "@mui/icons-material/DescriptionOutlined";
+import Typography from "@mui/joy/Typography";
+import{ CssVarsProvider } from "@mui/joy/styles";
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import Divider from "../../components/divider";
+
 
 import { useSelector } from "react-redux";
 import { createSelector } from "reselect";
-import { retrievePopularProduct } from "./selector";
+import { retrieveNewProduct } from "./selector";
 import { Product } from "../../../lib/types/product";
 import { serverApi } from "../../../lib/config";
+import { ProductCollection } from "../../../lib/enums/product.enum";
 
 
-const popularProductRetriever = createSelector(
-  retrievePopularProduct,
-  (popularProduct) => ({popularProduct})
+const newProductRetriever = createSelector(
+  retrieveNewProduct,
+  (newProduct) => ({newProduct})
 );
 
 
-export default function PopularDishes() {
-    const {popularProduct} = useSelector(popularProductRetriever)
+export default function NewDishes() {
 
+    const {newProduct} = useSelector(newProductRetriever)
 
-  return (
-    <div className="popular-dishes-frame">
-      <Container>
+    console.log("newProduct:", newProduct)
 
-        <Stack className="popular-section">
-         <Box className="category-title">Popular Product</Box>
-          <Stack className="cards-frame">
-            { popularProduct.length !== 0 ? (
-              popularProduct.map((product: Product) => {
-                const imagePath = `${serverApi}/${product.productImages[0]}`;
-              return (
-                <CssVarsProvider key={product._id}>
+        return (
+        <div className={"new-products-frame"}>
+           <Container>
+             <Stack className={"main"}>
+                 <Box className={"category-title"}>Fresh Product</Box>
+                   <Stack className={"cards-frame"}>
+                      <CssVarsProvider>
+                        { newProduct.length !== 0 ? (newProduct.map((product: Product) => {
+                            const imagePath = `${serverApi}/${product.productImages[0]}`;
+                            const sizeVoleme = 
+                            product.productCollection === ProductCollection.PARROT
+                            ? product.productAge + " l"
+                            : product.productGender + "";
+                            return (
+                                <Card key={product._id} variant="outlined" className={"card"}>
+                                    <CardOverflow>
+                                        <div className="product-sale">{sizeVoleme}</div>
+                                        <AspectRatio ratio="1">
+                                            <img src={imagePath} alt=""/>
+                                            </AspectRatio> 
+                                    </CardOverflow>
 
-
-
-                  <Card className="card">
-                    <CardCover>
-                      <img src={imagePath} alt="" />
-                    </CardCover>
-
-                    <CardCover className="card-cover" />
-
-                    <CardContent sx={{ justifyContent: "flex-end" }}>
-                      <Stack 
-                      flexDirection={"row"} 
-                      justifyContent={"space-between"}>
-
-                        <Typography 
-                        level="h2" 
-                        fontSize="lg" 
-                        textColor="#fff" 
-                        mb={1}>
-
-                          {product.productName}
-                        </Typography>
-
-                        <Typography
-                          sx={{
-                            
-                            color: "neutral.300",
-                            alignItems: "center",
-                            display: "flex",
-                          }}
-                        >
-                          {product.productViews}
-                          <VisibilityIcon sx={{ fontSize: 25, marginLeft: "5px" }} />
-                        </Typography>
-                      </Stack>
-                    </CardContent>
-
-                    <CardOverflow
-                      sx={{
-                        display: "flex",
-                        gap: 1.5,
-                        py: 1.5,
-                        px: "var(--Card-padding)",
-                        borderTop: "1px solid",
-                        height: "60px",
-                      }}
-                    >
-                      <Typography 
-                      startDecorator={<DescriptionOutlinedIcon />} 
-                      textColor="neutral.300">
-                        {product.productDesc}
-                      </Typography>
-                    </CardOverflow>
-                  </Card>
-
-
-                  
-                </CssVarsProvider>
-              );
-            })
-            
-
-            ) : (
-              <Box className="no-data">Popular products are not available!</Box>
-            )
-            
-            
-            }
-          </Stack>
-        </Stack>
-
-      </Container>
-    </div>
-  );
+                                    <CardOverflow variant="soft" className="product-detail">
+                                    <Stack className="info">
+                                        <Stack flexDirection={"row"}>
+                                            <Typography className={"title"}>
+                                                {product.productName}
+                                            </Typography>
+                                            <Divider width="2" height="24" bg="#d9d9d9"/>
+                                            <Typography className={"price"}>${product.productPrice}</Typography>
+                                        </Stack>
+                                        <Stack>
+                                            <Typography className={"views"}>
+                                                {product.productViews}
+                                                <VisibilityIcon 
+                                                sx={{ fontSize: 20, marginLeft: "5px" }}
+                                                />
+                                                </Typography>
+                                        </Stack>
+                                    </Stack>
+                                    </CardOverflow>
+                                </Card>
+                            );
+                        })
+                      ) : (
+                        <Box className="no-data">New products are not available!</Box>
+                      )  }
+                      </CssVarsProvider>
+                   </Stack>
+             </Stack>
+              </Container>
+        </div>
+    );
 }
+
+
+
+
+
+
+
 
 
 

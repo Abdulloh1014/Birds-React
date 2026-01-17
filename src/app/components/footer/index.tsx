@@ -5,10 +5,12 @@ import styled from "styled-components";
 
 const Footers = styled.div`
   width: 100%;
-  height: 590px;
+  height: 370px;
   display: flex;
-  background: #343434;
+  background-image: url("/img/footer.png");
+  // background: #006e0d;
   background-size: cover;
+   background-position: center;
 `;
 
 export default function Footer() {
@@ -17,15 +19,16 @@ export default function Footer() {
   return (
     <Footers>
       <Container>
-        <Stack flexDirection={"row"} sx={{ mt: "94px" }}>
+        <Stack flexDirection={"row"} sx={{ mt: "94px", marginTop: "40px" }}>
           <Stack flexDirection={"column"} style={{ width: "340px" }}>
             <Box>
-              <img width={"100px"} src={"/icons/burak.svg"} />
+              <img width={"60px"} src={"/icons/icon.jpeg"} style={{borderRadius: "50%"}}/>
             </Box>
-            <Box className={"foot-desc-txt"}>
-              Focusing on the gourmet Turkish breakfast as well as the youth
-              society, CZN Burak Gurme aims to bring Turkish cuisine back. CZN
-              Burak Gurme creates an illusion with its cuisine.
+            <Box className={"foot-desc-txt"} sx={{color: "white"}}>
+            Birds Magazine brings the beauty of birds to your screen. 
+            From rare species to everyday feathered friends, 
+            we share photography, insights, and tips for all bird lovers.
+            
             </Box>
             <Box className="sns-context">
               <img src={"/icons/facebook.svg"} />
@@ -37,12 +40,12 @@ export default function Footer() {
           <Stack sx={{ ml: "288px" }} flexDirection={"row"}>
             <Stack>
               <Box>
-                <Box className={"foot-category-title"}>Bo'limlar</Box>
+                <Box className={"foot-category-title"}>Pages</Box>
                 <Box className={"foot-category-link"}>
-                  <Link to="/">Home</Link>
-                  <Link to="/products">Products</Link>
-                  {authMember && <Link to="/orders">Orders</Link>}
-                  <Link to="/help">Help</Link>
+                  <Link style={{color: "blue"}} to="/">Home</Link>
+                  <Link style={{color: "blue"}} to="/products">Products</Link>
+                  {authMember && <Link style={{color: "blue"}} to="/orders">Orders</Link>}
+                  <Link style={{color: "blue"}} to="/help">Help</Link>
                 </Box>
               </Box>
             </Stack>
@@ -56,33 +59,33 @@ export default function Footer() {
                   justifyContent={"space-between"}
                 >
                   <Box flexDirection={"row"} className={"find-us"}>
-                    <span>L.</span>
-                    <div>Downtown, Dubai</div>
+                    <span>Location:</span>
+                    <div style={{color: "white"}} >Andijan</div>
                   </Box>
                   <Box className={"find-us"}>
-                    <span>P.</span>
-                    <div>+971 4 554 7777</div>
+                    <span>Phone:</span>
+                    <div style={{color: "white"}} >+998 74 254 0101</div>
                   </Box>
                   <Box className={"find-us"}>
-                    <span>E.</span>
-                    <div>devexuz@gmail.com</div>
+                    <span>Email:</span>
+                    <div style={{color: "white"}} >birds@gmail.com</div>
                   </Box>
                   <Box className={"find-us"}>
-                    <span>H.</span>
-                    <div>Visit 24 hours</div>
+                    <span>Hours:</span>
+                    <div style={{color: "white"}} >Visit 24 hours</div>
                   </Box>
                 </Box>
               </Box>
             </Stack>
           </Stack>
         </Stack>
-        <Stack
+        {/* <Stack
           style={{ border: "1px solid #C5C8C9", width: "100%", opacity: "0.2" }}
           sx={{ mt: "80px" }}
         ></Stack>
         <Stack className={"copyright-txt"}>
           © Copyright Devex Global, All rights reserved.
-        </Stack>
+        </Stack> */}
       </Container>
     </Footers>
   );

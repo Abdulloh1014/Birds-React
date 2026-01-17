@@ -32,23 +32,25 @@ export default function ActiveUsers() {
                 topUsers.map((member: Member) => {
                   const imagePath = `${serverApi}/${member.memberImage}`;
                     return (
+
                       <Card key={member._id} variant="outlined" className="active-users__card">
                     <CardOverflow>
-                      <AspectRatio ratio="1">
-                        <img src={imagePath} alt="" />
-                      </AspectRatio>
-                    </CardOverflow>
+  <AspectRatio ratio="1">
+    <img src={imagePath} alt="" style={{ borderRadius: '10px' }} />
+  </AspectRatio>
+</CardOverflow>
 
-                    <CardOverflow variant="soft" className="active-users__info">
-                      <Stack className="active-users__text">
-                        <Stack flexDirection="row">
-                          <Typography className="active-users__name">
-                            {member.memberNick}
-                          </Typography>
-                        </Stack>
-                      </Stack>
-                    </CardOverflow>
+<CardOverflow variant="soft" className="active-users__info" sx={{background: "green"}}>
+  <Stack className="active-users__text" alignItems="center">
+    <Typography className="active-users__name">
+      {member.memberNick}
+    </Typography>
+   
+  </Stack>
+</CardOverflow>
+
                   </Card>
+
                 );
 
                 })

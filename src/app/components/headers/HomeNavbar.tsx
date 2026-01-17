@@ -39,13 +39,13 @@ export default function HomeNavbar(props: HomeNavbarProps) {
   const { authMember } = useGlobals();
 
   /* 🔽 FAQAT SHU QO‘SHILDI (BANNER AYLANISHI) */
-  const banners = ["bg-1", "bg-2", "bg-3"];
+  const banners = ["bg-1", "bg-2", "bg-3", "bg-4"];
   const [index, setIndex] = useState(0);
 
   useEffect(() => {
     const interval = setInterval(() => {
       setIndex((prev) => (prev + 1) % banners.length);
-    }, 3000000);
+    }, 3000);
 
     return () => clearInterval(interval);
   }, []);
