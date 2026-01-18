@@ -34,20 +34,25 @@
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  /* background-color: rgb(49, 97, 51); */
-  /* background-color: rgba(49, 97, 51, 0.3); */
-  background-color: rgba(46, 125, 50, 0.8);
-;
-  
-  padding: 0px 180px;
+  background-color: rgba(46, 125, 50, 0.1);
+  padding: 0 180px;
   position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
   z-index: 1000;
-
-
+  transition: background-color 0.2s ease;
+  /* scroll-driven animation */
+  animation: bg-fade 1s linear forwards;
+  animation-timeline: scroll(root block);  
+  animation-range: 0px 300px;             
 }
+
+@keyframes bg-fade {
+  to {
+    background-color: rgba(46, 125, 50, 0.9);
+  }
+}
+
 
 .home-navbar .menu .brand-logo {
   width: 60px;
@@ -63,6 +68,7 @@
 
 .home-navbar .menu .brand-logo:hover{
   transform: scale(1.1);
+  cursor: pointer;
 }
 
 .brand-logo-img {
@@ -162,111 +168,6 @@ border-radius: 24px;
 
 
 
-/* 
-
-
-
-
-
-.home-navbar .menu .links{
-  min-width: 700px;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-
-}
-
-
-
-
-
-
-
-
-
-.home-navbar .hover-line:after {
-    display: block;
-    content: "";
-    border-bottom: solid 2px #d7b686;
-    transform: scaleX(0);
-    transition: transform 250ms ease-in-out;
-}
-
-.home-navbar .hover-line:hover:after {
-    transform: scaleX(1);
-}
-
-.home-navbar div.hover-line:after {
-    transform-origin: 0% 50%;
-}
-
-
-.home-navbar  .header-frame {
-    margin-top: 142px;
-    height: 462px;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-}
-
-
-.home-navbar  .header-frame .detail {
-   width: 510px;
-   display: flex;
-    flex-direction: column;
-}
-
-
-
-
-.home-navbar  .header-frame .detail .wel-txt {
-    width: 510px;
-    height: 42px;
-
-   
-    color: #d7b686;
-}
-
-
-.home-navbar  .header-frame .detail .service-txt {
-    margin-top: 23px;
-    width: 153;
-    height: 23px;
-
-    font-family: "Roboto Serif";
-    font-size: 20px;
-    font-weight: 400;
-    font-style: normal;
-    line-height: normal;
-    letter-spacing: -0.3px;
-    color: #d5d5d5;
-}
-
-
-
-.home-navbar  .detail .signup .signup-button {
-    width: 210px;
-    height: 60px;
-    border-radius: 4px;
-    background: #1976d2;
-    text-align: center;
-    font-family: Poppins;
-    font-size: 17px;    
-    font-style: normal;
-    font-weight: 400;
-    line-height: normal;
-    color: #f8f8ff;
-}
-
-
-
-
-
-
- */
-
-
 
  /** Other Navbar Styles !!!!!!!!!!!!!!!!!!*/
 
@@ -277,46 +178,68 @@ border-radius: 24px;
     width: 100%;
     height: 400px;
     display: flex;
-    background: url("/public/img/banner.png");
+    background: url("/public/img/header.jpeg");
     background-size: cover;
+   background-position: center;
 }
 
-.other-navbar .home-container {
-    margin-top: 55px;
-}
 
-.other-navbar .home-container .menu {
-  height: 50px;
+.other-navbar .menu {
+  height: 73px;
+  width: 100%;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+  background-color: rgba(46, 125, 50, 0.2);
+  padding: 0px 180px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  transition: background-color 0.1s ease;
+  /* scroll-driven animation */
+  animation: bg-fade 1s linear forwards;
+  animation-timeline: scroll(root block);  
+  animation-range: 0px 300px;             
 
 }
 
-.other-navbar .home-container .menu .brand-logo {
-     width: 125px;
-     height: 30px;
+.other-navbar  .menu .brand-logo {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 0;
+  transition: color 0.3s ease, transform 0.3s ease;
 }
 
+.other-navbar  .menu .brand-logo:hover{
+    transform: scale(1.1);
+    cursor: pointer;
+}
 
-.other-navbar .home-container .menu .links{
-  min-width: 700px;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
+.other-navbar  .menu .links{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: 50px;
+  
 
 }
 
-.other-navbar .home-container .menu .links .login-button {
+.other-navbar .menu .links .login-button {
   background-color: #3776cc;
     color: #f8f8ff;
 
 }
 
 
-.other-navbar .home-container .menu .user-avatar{
+.other-navbar  .menu .user-avatar{
 width: 50px;
 height: 50px;
 border-radius: 24px;
@@ -326,10 +249,19 @@ border-radius: 24px;
     text-decoration: none;
 }
 
-.other-navbar .hover-line a {
-color: #f8f8ff;
-z-index: 100;
+.other-navbar .hover-line  a{
+   display: inline-block;
+  font-size: 23px;
+  color: #ffffff;
+  z-index: 100;
+  transition: color 0.3s ease, transform 0.3s ease;
 }
+
+.other-navbar .hover-line  a:hover{
+    color: #d7b686;
+    transform: scale(1.08);
+}
+
 
 .other-navbar .underline {
     display: block;
@@ -337,21 +269,29 @@ z-index: 100;
     border-bottom: solid 2px #d7b686;;
 }
 
-.other-navbar .hover-line:after {
-    display: block;
-    content: "";
-    border-bottom: solid 2px #d7b686;
-    transform: scaleX(0);
-    transition: transform 250ms ease-in-out;
+.other-navbar .menu .btn-frame {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: 50px;
 }
 
-.other-navbar .hover-line:hover:after {
-    transform: scaleX(1);
+.other-navbar   .login-button {
+    width: 110px;
+    height: 37px;
+    border-radius: 4px;
+    background: #44d219;
+    text-align: center;
+    font-family: Poppins;
+    font-size: 17px;    
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    color: #ffffff;
 }
 
-.other-navbar div.hover-line:after {
-    transform-origin: 0% 50%;
-}
+
 
 
 /* BASKET. !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! */

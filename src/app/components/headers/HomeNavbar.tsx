@@ -54,11 +54,15 @@ export default function HomeNavbar(props: HomeNavbarProps) {
   return (
     <div className={`home-navbar ${banners[index]}`}>
       <Stack className="menu">
+
+
         <Box className="brand-logo">
           <NavLink to="/">
             <img className="brand-logo-img" src="/icons/icon.jpeg" />
           </NavLink>
         </Box>
+        
+
 
         <Stack className="links">
           <Box className="hover-line">
@@ -85,6 +89,8 @@ export default function HomeNavbar(props: HomeNavbarProps) {
             <NavLink to="/help" activeClassName="underline">Help</NavLink>
           </Box>
         </Stack>
+
+
 
         <Stack className="btn-frame">
           <Basket

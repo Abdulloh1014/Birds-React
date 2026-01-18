@@ -8,6 +8,7 @@ import Pagination from "@mui/material/Pagination";
 import PaginationItem from "@mui/material/PaginationItem";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
+import VisibilityIcon from "@mui/icons-material/Visibility";
 
 import { useDispatch, useSelector } from "react-redux";
 import { Dispatch } from "@reduxjs/toolkit";
@@ -21,15 +22,23 @@ import { serverApi } from "../../../lib/config";
 import { useHistory } from "react-router-dom";
 import { CartItem } from "../../../lib/types/search";
 
+import {
+  Card,
+  CardContent,
+  CardMedia,
+  Typography,
+  Chip,
+  Rating,
+} from "@mui/material";
 
-/** REDUX SLICE & SELECTOR   */
+/** REDUX SLICE & SELECTOR */
 const actionDispatch = (dispatch: Dispatch) => ({
   setProducts: (data: Product[]) => dispatch(setProducts(data)),
-
 });
+
 const productsRetriever = createSelector(
   retrieveProducts,
-  (products) => ({products})
+  (products) => ({ products })
 );
 
 interface ProductsProps {
@@ -37,231 +46,402 @@ interface ProductsProps {
 }
 
 export default function Products(props: ProductsProps) {
-     const { onAdd } = props; 
-     const { setProducts } = actionDispatch(useDispatch());
-     const {products} = useSelector(productsRetriever);
-     const [productSearch, setProductSearch] = useState<ProductInquiry>({
-        page: 1,
-        limit: 8,
-        order: "createdAt",
-        productCollection: ProductCollection.PARROT,
-        search: "",
-     });
+  const { onAdd } = props;
+  const { setProducts } = actionDispatch(useDispatch());
+  const { products } = useSelector(productsRetriever);
 
-     const [searchText, setSearchText] = useState<string>("");
-     const history = useHistory();
+  const [productSearch, setProductSearch] = useState<ProductInquiry>({
+    page: 1,
+    limit: 6,
+    order: "createdAt",
+    productCollection: ProductCollection.PARROT,
+    search: "",
+  });
 
+  const [searchText, setSearchText] = useState<string>("");
+  const history = useHistory();
 
-    useEffect(() => {
-      const product = new ProductService();
-      product
+  useEffect(() => {
+    const product = new ProductService();
+    product
       .getProducts(productSearch)
       .then((data) => setProducts(data))
       .catch((err) => console.log(err));
-    }, [productSearch]);
+  }, [productSearch]);
 
-    useEffect(() => {
-        if(searchText === "") {
-            productSearch.search = "";
-            setProductSearch({ ...productSearch });
-        }
-    }, [searchText])
-
-    /** HANDLERS */
-
-    const searchCollectionHandler = (collection: ProductCollection) => {
-        productSearch.page = 1;
-        productSearch.productCollection = collection;
-        setProductSearch({ ...productSearch });
-    };
-
-    const searchOrderHandler = (order: string) => {
-        productSearch.page = 1;
-        productSearch.order = order;
-        setProductSearch({ ...productSearch });
-    };
-
-    const searchProdutHandler = () => {
-        productSearch.search = searchText;
-        setProductSearch({...productSearch});
-    };
-
-    const paginationHandler = (e: ChangeEvent<any>, value: number) => {
-       productSearch.page = value;
-       setProductSearch({...productSearch})
-    };
-
-    const choseDishHandler = (id: string) => {
-      history.push(`/products/${id}`);
+  useEffect(() => {
+    if (searchText === "") {
+      productSearch.search = "";
+      setProductSearch({ ...productSearch });
     }
+  }, [searchText]);
 
-    return (
-        <div className={"products"}>
-            <Container>
-                <Stack flexDirection="column" alignItems="center">
+  /** HANDLERS */
 
-                    <Stack className={"rest-sarlavxa-bolim"}>
+  const searchCollectionHandler = (collection: ProductCollection) => {
+    productSearch.page = 1;
+    productSearch.productCollection = collection;
+    setProductSearch({ ...productSearch });
+  };
 
-                        <Box className={"burak-sarlavxa"}>
-                            Burak Restaurant
-                        </Box>
+  const searchOrderHandler = (order: string) => {
+    productSearch.page = 1;
+    productSearch.order = order;
+    setProductSearch({ ...productSearch });
+  };
 
-                        <Box sx={{ position: "relative", display: "flex", }}
-                        className={"inputt"}>
-                            <input
-                                
-                                type={"search"}
-                                placeholder={"Type here"}
-                                name={"singleResearch"}
-                                value={searchText}
-                                onChange={(e) => setSearchText(e.target.value)}
-                                onKeyDown={(e) => { if ( e.key === "Enter") searchProdutHandler();
+  const searchProdutHandler = () => {
+    productSearch.search = searchText;
+    setProductSearch({ ...productSearch });
+  };
 
-                                 }}
-                                  
-                                style={{
-                                    width: "253px",
-                                    height: "37px",
-                                    padding: "0 40px 0 12px",
-                                    borderRadius: "17px",
-                                    border: "1px solid #ccc",
-                                    outline: "none",
-                                    fontSize: "14px",
-                                    marginRight: "63px"
-                                    
-                                }}
-                            />
+  const paginationHandler = (e: ChangeEvent<any>, value: number) => {
+    productSearch.page = value;
+    setProductSearch({ ...productSearch });
+  };
 
-                            <Button color={"primary"} variant={"contained"}
-                                   onClick={searchProdutHandler}
-                                style={{
-                                    position: "absolute",
-                                    right: "0",
-                                    top: "0",
-                                    height: "height: 36px,",
-                                    width: "99px",
-                                    border: "none",
-                                    borderRadius: "17px",
-                                    cursor: "pointer",
-                                    display: "flex",
-                                    alignItems: "center",
-                                    justifyContent: "center",
-                                    gap: "6px",
-                                    fontWeight: "bold",
-                                    fontSize: "14px",
-                                }}
-                            >
-                                SEARCH
-                                <SearchIcon sx={{ fontSize: "20px" }} />
-                            </Button>
-                        </Box>
+  const choseDishHandler = (id: string) => {
+    history.push(`/products/${id}`);
+  };
 
-                    </Stack>
+  return (
+    <div className={"products"}>
+      <Container>
+        <Stack flexDirection="column" alignItems="center">
+          <Stack className={"rest-sarlavxa-bolim"}>
+            <Box className={"burak-sarlavxa"}>Menu Product</Box>
 
+            <Box
+              sx={{ position: "relative", display: "flex" }}
+              className={"inputt"}
+            >
+              <input
+                type={"search"}
+                placeholder={"Type here"}
+                name={"singleResearch"}
+                value={searchText}
+                onChange={(e) => setSearchText(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") searchProdutHandler();
+                }}
+                style={{
+                  width: "253px",
+                  height: "37px",
+                  padding: "0 40px 0 12px",
+                  borderRadius: "17px",
+                  border: "1px solid #ccc",
+                  outline: "none",
+                  fontSize: "14px",
+                  marginRight: "63px",
+                }}
+              />
 
-                    <Stack className={"right-top-btn"}>
-                        <Stack className={"btn-group"}>
-                            <Button
-                          variant={"contained"}
-                          className={"btn-left"}
-                          color={
-                          productSearch.order === "createdAt" ? "primary" : "secondary"}
-                          onClick={() => searchOrderHandler("createdAt") }
-                          >
-                          New
-                        </Button>
-                        <Button
-                         variant={"contained"}
-                          className={"btn-left"}
-                          color={
-                          productSearch.order === "productPrice" ? "primary" : "secondary"}
-                          onClick={() => searchOrderHandler("productPrice") }
-                          >
-                            
-                          Price
-                        </Button>
-                        <Button
-                         variant={"contained"}
-                          className={"btn-left"}
-                           color={
-                          productSearch.order === "productViews" ? "primary" : "secondary"}
-                          onClick={() => searchOrderHandler("productViews") }
-                          >
-                          Wiews
-                        </Button>
+              <Button
+                color={"success"}
+                variant={"contained"}
+                onClick={searchProdutHandler}
+                style={{
+                  position: "absolute",
+                  right: "0",
+                  top: "0",
+                  height: "height: 36px,",
+                  width: "99px",
+                  border: "none",
+                  borderRadius: "17px",
+                  cursor: "pointer",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  gap: "6px",
+                  fontWeight: "bold",
+                  fontSize: "14px",
+                }}
+              >
+                SEARCH
+                <SearchIcon sx={{ fontSize: "20px" }} />
+              </Button>
+            </Box>
+          </Stack>
 
-                        </Stack>
-                    </Stack>
+          <Stack className={"right-top-btn"}>
+            <Stack className={"btn-group"}>
+              <Button
+                variant={"contained"}
+                className={"btn-left"}
+                color={
+                  productSearch.order === "createdAt"
+                    ? "primary"
+                    : "secondary"
+                }
+                onClick={() => searchOrderHandler("createdAt")}
+              >
+                New
+              </Button>
 
+              <Button
+                variant={"contained"}
+                className={"btn-left"}
+                color={
+                  productSearch.order === "productPrice"
+                    ? "primary"
+                    : "secondary"
+                }
+                onClick={() => searchOrderHandler("productPrice")}
+              >
+                Price
+              </Button>
+
+              <Button
+                variant={"contained"}
+                className={"btn-left"}
+                color={
+                  productSearch.order === "productViews"
+                    ? "primary"
+                    : "secondary"
+                }
+                onClick={() => searchOrderHandler("productViews")}
+              >
+                Wiews
+              </Button>
+            </Stack>
+          </Stack>
+
+          <Stack className={"cards-frame"}>
+            <Stack className={"cards-btn"}>
+              <div className={"card-left-btn"}>
+                <Button
+                  variant={"contained"}
+                  color={
+                    productSearch.productCollection ===
+                    ProductCollection.PARROT
+                      ? "primary"
+                      : "secondary"
+                  }
+                  onClick={() =>
+                    searchCollectionHandler(ProductCollection.PARROT)
+                  }
+                >
+                  PARROT
+                </Button>
+
+                <Button
+                  variant={"contained"}
+                  color={
+                    productSearch.productCollection ===
+                    ProductCollection.CANARIES
+                      ? "primary"
+                      : "secondary"
+                  }
+                  onClick={() =>
+                    searchCollectionHandler(ProductCollection.CANARIES)
+                  }
+                >
+                  CANARIES
+                </Button>
+
+                <Button
+                  variant={"contained"}
+                  color={
+                    productSearch.productCollection ===
+                    ProductCollection.PIGEONS
+                      ? "primary"
+                      : "secondary"
+                  }
+                  onClick={() =>
+                    searchCollectionHandler(ProductCollection.PIGEONS)
+                  }
+                >
+                  PIGEONS
+                </Button>
+
+                <Button
+                  variant={"contained"}
+                  color={
+                    productSearch.productCollection ===
+                    ProductCollection.QUAILS
+                      ? "primary"
+                      : "secondary"
+                  }
+                  onClick={() =>
+                    searchCollectionHandler(ProductCollection.QUAILS)
+                  }
+                >
+                  QUALIS
+                </Button>
+
+                <Button
+                  variant={"contained"}
+                  color={
+                    productSearch.productCollection ===
+                    ProductCollection.PHEASANTS
+                      ? "primary"
+                      : "secondary"
+                  }
+                  onClick={() =>
+                    searchCollectionHandler(ProductCollection.PHEASANTS)
+                  }
+                >
+                  PHEASANTS
+                </Button>
+
+                <Button
+                  variant={"contained"}
+                  color={
+                    productSearch.productCollection ===
+                    ProductCollection.PEACOCKS
+                      ? "primary"
+                      : "secondary"
+                  }
+                  onClick={() =>
+                    searchCollectionHandler(ProductCollection.PEACOCKS)
+                  }
+                >
+                  PEACOCKS
+                </Button>
+
+                <Button
+                  variant={"contained"}
+                  color={
+                    productSearch.productCollection ===
+                    ProductCollection.EXOTIC
+                      ? "primary"
+                      : "secondary"
+                  }
+                  onClick={() =>
+                    searchCollectionHandler(ProductCollection.EXOTIC)
+                  }
+                >
+                  EXOTIC
+                </Button>
+              </div>
+            </Stack>
+
+            <Stack className={"product-wrapper"}>
+              {products.length !== 0 ? (
+                products.map((product: Product) => {
+                  const imagePath = `${serverApi}/${product.productImages[0]}`;
+
+                  return (
+                    <Card 
+                    
+                    key={product._id}
+                        
+                       sx={{
+                       width: 310,
+                       height: 400,
+                        borderRadius: 3,
+                           boxShadow: 3,
+                           }}
+                    >
+                      <Box
+                        sx={{
+                          position: "relative",
+                        }}
+                      >
+                        <CardMedia
+                         onClick={() => choseDishHandler(product._id)}
+                        className={"product-cards"}
+                          component="img"
+                          height="240"
+                          src={imagePath}
+                          alt="Premium Laptop"
+                          sx={{cursor:"pointer",
+                     objectFit: "cover",
+                      }}
+                        />
+
+                        <Chip
+                          label={product.productAge}
+                          color="success"
+                          size="small"
+                          sx={{
+                            position: "absolute",
+                            top: 12,
+                            right: 12,
+                            fontWeight: 600,
+                          }}
+                        />
+                      </Box>
+
+                      <CardContent>
+                        <Typography
+  variant="h6"
+  gutterBottom
+  sx={{
+    fontWeight: "md",
+    fontSize: "22px",
+    color: "#1A1A1A",
+    margin: 0,
+    padding: 0,
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    gap: 1, // 🔥 orani ochadi
+  }}
+>
+  {product.productName}
+
+  <Typography >
+                          {product.productGender}
+                        </Typography>
+</Typography>
  
-                    <Stack className={"cards-frame"}>
 
-                        <Stack className={"cards-btn"}>
-                            <div className={"card-left-btn"}>
 
-                                <Button variant={"contained"} 
-                                    color={
-                                    productSearch.productCollection === ProductCollection.PARROT 
-                                    ? "primary" : "secondary"}
-                                    onClick={() => searchCollectionHandler(ProductCollection.PARROT)}>
-                                     PARROT
-                                </Button>
+                       
+                        <Box
+                          display="flex"
+                          justifyContent="space-between"
+                          alignItems="center"
+                          mb={2}
+                        >
+                          <Box>
+                            <Typography
+                              variant="h6"
+                              component="span"
+                              sx={{fontFamily: "revert", fontSize: "22px", color: "green", fontWeight: 700}}
+                            >
+                              ${product.productPrice}
+                            </Typography>
+                          </Box>
 
-                                <Button variant={"contained"} 
-                                    color={
-                                    productSearch.productCollection === ProductCollection.CANARIES
-                                    ? "primary" : "secondary"}
-                                    onClick={() => searchCollectionHandler(ProductCollection.CANARIES)}>
-                                     CANARIES
-                                </Button>
+                           
 
-                                <Button variant={"contained"} 
-                                    color={
-                                    productSearch.productCollection === ProductCollection.PIGEONS 
-                                    ? "primary" : "secondary"}
-                                    onClick={() => searchCollectionHandler(ProductCollection.PIGEONS)}>
-                                     PIGEONS
-                                </Button>
+                          <Box
+                            display="flex"
+                            alignItems="center"
+                            flexDirection="column"
+                            // gap="20px"
+                            paddingBottom="0px"
+                            marginBottom="0px"
+                          >
+                           
 
-                                <Button variant={"contained"} 
-                                    color={
-                                    productSearch.productCollection === ProductCollection.QUAILS 
-                                    ? "primary" : "secondary"}
-                                    onClick={() => searchCollectionHandler(ProductCollection.QUAILS)}>
-                                     QUALIS
-                                </Button>
+                            <Typography
+                          sx={{
+                            fontWeight: "md",
+                            color: "black",
+                            alignItems: "center",
+                            display: "flex",
+                          }}
+                        >
+                          {product.productViews}
+                          <VisibilityIcon
+                            sx={{
+                              fontSize: 15,
+                              marginLeft: "5px",
+                              color: "#374151",
+                            }}
+                          />
+                        </Typography>
+                          </Box>
+                        </Box>
 
-                                <Button variant={"contained"} 
-                                    color={
-                                    productSearch.productCollection === ProductCollection.PHEASANTS 
-                                    ? "primary" : "secondary"}
-                                    onClick={() => searchCollectionHandler(ProductCollection.PHEASANTS)}>
-                                     PHEASANTS
-                                </Button>
-
-                            </div>
-                        </Stack>
-
-                        <Stack className={"product-wrapper"}>
-                            {products.length !== 0 ? (
-                                products.map((product: Product) => {
-                                    const imagePath = `${serverApi}/${product.productImages[0]}`;
-                                    const sizeVolume = 
-                                    product.productCollection === ProductCollection.PARROT
-                                    ? product.productCollection + " litre"
-                                    : product.productAge + " size";
-                                    return (
-                                        <Stack key={product._id} className={"product-card"}
-                                        onClick={() => choseDishHandler(product._id)}
-                                        >
-                                            <Stack 
-                                            className={"product-img"}
-                                            sx={{ backgroundImage: `url(${imagePath})`,  }}
-                                            >
-                                            
-                                            <div className={"product-sale"}>{sizeVolume}</div>
-                                            <Button
-                                            onClick={(e) => {
+                        <Button
+                          variant="contained"
+                          color="success"
+                          fullWidth
+                          onClick={(e) => {
                                                 onAdd({
                                                     _id: product._id,
                                                     quantity: 1,
@@ -271,111 +451,76 @@ export default function Products(props: ProductsProps) {
                                                 });
                                                 e.stopPropagation();
                                             } }
-                                            >
-                                                <img 
-                                                className="shopping-icon"
-                                                src={"/icons/shopping-cart.svg"} 
-                                                style={{ display: "flex"}} 
-                                                />
-                                            </Button>
-                                            <Button className={"view-btn"} sx={{right: "36px"}}>
-                                                <Badge badgeContent={product.productViews} color="secondary">
-                                                    <RemoveRedEyeIcon
-                                                    sx={{color: 
-                                                        product.productViews === 0 ? "gray" : "white", }}
-                                                      />
-                                                </Badge>
-                                                
-                                            </Button>
-
-                                            </Stack> 
-                                            <Box className={"product-narx"}>
-                                                <span className={"product-title"}>
-                                                    {product.productName}
-                                                </span>
-
-                                               <div className={"product-www"}>
-                                                    <MonetizationOnIcon />
-                                                        {product.productPrice}
-                                                </div>
-
-                                                
-
-                                               
-                                            </Box>
-
-                                        </Stack>
-                                    );
-                                })
-                            ) : (
-                                <Box className="no-data">Product are not available</Box>
-                            )}
-                        </Stack>
-
-                    </Stack>
-
-
-                    <Stack className={"pagination-section"}>
-                        <Pagination 
-                        count={
-                            products.length !== 0
-                            ? productSearch.page + 1
-                            : productSearch.page
-                        }
-                        page={productSearch.page}
-                        renderItem={(item) => (
-                            <PaginationItem
-                            components={{
-                                previous: ArrowBackIcon,
-                                next: ArrowForwardIcon,
-                            }}
-                            {...item}
-                            color={"secondary"}
-                             />
-                        )}
-                        onChange={paginationHandler}
-                        />
-                    </Stack>
-                </Stack>
-            </Container>
-
-             <div className={"brand-logo"}>
-                <Box className={"logo-text"}> Our Family Brands</Box>
-                <Stack className={"burak-foto"}>
-                    <Box className={"burak-box"}><img src={"/img/gurme.webp"} alt="Safood Logo" /></Box>
-                    <Box className={"burak-box"}><img src={"/img/seafood.webp"} alt="Safood Logo" /></Box>
-                    <Box className={"burak-box"}><img src={"/img/sweets.webp"} alt="Safood Logo" /></Box>
-                    <Box className={"burak-box"}><img src={"/img/doner.webp"} alt="Safood Logo" /></Box>
-                   
-                   
-                </Stack>
-             </div>
-
-             <div className={"address"}>
-                  <Container>
-                    <Stack className={"address-area"}>
-                        <Box className={"title"}>Our address</Box>
-                        <iframe
-                        style={{marginTop: "60"}}
-                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d4304.009129507858!2d72.35687446020327!3d40.76280806409186!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x38bcedb3adddd9f3%3A0xa6dbbc6cd1305025!2sLazeez!5e0!3m2!1sru!2skr!4v1763290728575!5m2!1sru!2skr"
-                        width="1320"
-                        height="500"
-                        referrerPolicy="no-referrer-when-downgrade"
+                          
+                          sx={{
+                            borderRadius: 2,
+                          }}
                         >
+                          Add to Cart
+                        </Button>
+                      </CardContent>
+                    </Card>
+                  );
+                })
+              ) : (
+                <Box className="no-data">
+                  Product are not available
+                </Box>
+              )}
+            </Stack>
+          </Stack>
 
-                        </iframe>
-                    </Stack>
-                  </Container>
-             </div>
-
-
-        </div>
-
-       
-    );
+          <Stack className={"pagination-section"}>
+            <Pagination
+  count={products.length !== 0 ? productSearch.page + 1 : productSearch.page}
+  page={productSearch.page}
+  onChange={paginationHandler}
+            // asosiy yashil rang (MUI'da "success" = green)
+  shape="rounded"
+  variant="outlined"           // yoki "text" yoki umuman olib tashlasangiz bo'ladi
+  sx={{
+    // Butun paginationni yashil ohangda qilish
+    "& .MuiPagination-ul": {
+      justifyContent: "center",
+    },
+    "& .MuiPaginationItem-root": {
+      color: "#2e7d32",           // yashil matn/rang
+      borderColor: "#4caf50",     // yashil chegara
+      "&:hover": {
+        backgroundColor: "#e8f5e9", // och yashil hover
+        borderColor: "#66bb6a",
+      },
+      "&.Mui-selected": {
+        backgroundColor: "#4caf50 !important", // tanlangan sahifa — yorqin yashil
+        color: "white",
+        borderColor: "#4caf50",
+        "&:hover": {
+          backgroundColor: "#66bb6a !important",
+        },
+      },
+      "&.MuiPaginationItem-ellipsis": {
+        color: "#2e7d32",
+      },
+    },
+    // Arrow iconlarini ham yashil qilish
+    "& .MuiPaginationItem-icon": {
+      color: "#2e7d32",
+    },
+  }}
+  renderItem={(item) => (
+    <PaginationItem
+      {...item}
+      components={{
+        previous: ArrowBackIcon,
+        next: ArrowForwardIcon,
+      }}
+      // Agar xohlasangiz bu yerdan ham qo'shimcha style qo'yish mumkin
+    />
+  )}
+/>
+          </Stack>
+        </Stack>
+      </Container>
+    </div>
+  );
 }
-
-
-
-
-

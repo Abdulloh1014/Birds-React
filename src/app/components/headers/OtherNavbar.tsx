@@ -40,18 +40,19 @@ export default function OtherNavbar (props: OtherNavbarProps) {
 
 
     return <div className="other-navbar"> 
-    <Container className="home-container">
+   
         <Stack className="menu">
 
             
            <Box>   
               <NavLink to="/">
                  <img 
-                 className="brand-logo" src="/icons/burak.svg"/>
+                 className="brand-logo" src="/icons/icon.jpeg"/>
               </NavLink>
            </Box>
-           <Stack 
-          className="links">
+
+
+           <Stack className="links">
             <Box className={"hover-line"}>   
               <NavLink to="/">Home</NavLink>
            </Box>
@@ -71,7 +72,11 @@ export default function OtherNavbar (props: OtherNavbarProps) {
               <Box  className={"hover-line"}>   
               <NavLink to="/help" activeClassName={"underline"}>Help</NavLink>
            </Box>
-            <Basket 
+           </Stack>
+
+
+           <Stack className={"btn-frame"}>
+             <Basket 
             cartItems={cartItems} 
             onAdd={onAdd}
             onRemove={onRemove}
@@ -142,10 +147,18 @@ export default function OtherNavbar (props: OtherNavbarProps) {
 		</ListItemIcon>
 		Logout
 	 </MenuItem>
-   </Menu>
+              </Menu>
+
 
            </Stack>
+
+
+
         </Stack>
-    </Container>
+
+           
+
+           
+    
     </div>
 }

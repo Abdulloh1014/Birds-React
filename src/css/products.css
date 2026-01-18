@@ -14,6 +14,9 @@
     display: flex;
     background: #f8f8ff;
     flex-direction: column;
+    /* background-color: #374151; */
+    margin-bottom: 30px;
+
 }
 
 
@@ -44,6 +47,7 @@
     font-size: 36px;
     line-height: 43px;
     margin-left: 340px;
+     color:#006e0d;
 }
 
 .right-top-btn .btn-group{
@@ -98,7 +102,6 @@
 
 
 .product-www {
-  /* background-color: aqua; */
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -170,6 +173,7 @@ text-align: left;
   font-size: 20px;
   margin-bottom: 6px; 
   display: block;
+
 }
 
 .product-price {
@@ -179,6 +183,13 @@ text-align: left;
   color: #bfa56a;
   font-weight: 500;
 
+}
+
+.product-cards{
+   transition: color 0.3s ease, transform 0.3s ease;
+}
+.product-cards:hover{
+    transform: scale(1.1);
 }
 
 .no-data {
@@ -192,7 +203,7 @@ text-align: left;
   text-transform: capitalize;
   font-family: "Poppins";
   font-size: 30px;
-  color: #e3c08d;
+  color: #128800ef;
 }
 
 
@@ -201,7 +212,7 @@ text-align: left;
 
 .products .cards-frame {
     display: flex;
-    height: 800px;
+    height: 850px;
     width: 100%;
     flex-direction: row;
     margin-top: 50px;
@@ -216,13 +227,6 @@ text-align: left;
     gap: 14px;
 }
 
-.products .cards-frame .cards-btn .card-left-btn button {
-    writing-mode: vertical-lr;  
-    text-orientation: sideways; 
-    transform: rotate(180deg); 
-    padding: 18px 10px;
-    min-width: auto;
-}
 
 
 /* Menular. !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! */
@@ -237,7 +241,8 @@ text-align: left;
     flex-direction: column;      
     justify-content: flex-end; 
     align-items: center;         
-    gap: 14px;                  
+    gap: 14px; 
+    /* background-color: chartreuse;                  */
 }
 
 
@@ -341,42 +346,17 @@ text-align: left;
     margin-top: 60px;
 }
 
-.brand-logo {
-   height: 630px;
-   width: 100%;
- background: rgba(13, 21, 24, 1);
- margin-top: 55px;
-}
-
-.brand-logo .burak-foto {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  gap: 53px;
-      margin-top: 60px;
-
-}
-
-.brand-logo .burak-foto .burak-box {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-    width: 238px;
-    height: 331px;
-    border-radius: 20px;
-box-shadow: 0px 0px 22px 0px rgba(228, 212, 212, 1);
-background: rgba(13, 21, 24, 1);
-}
 
 
-/** !!!!!!!!!!!!!!!!  ADDRESS !!!!!!!!!!!!!!!!!!!  **/
+
+
 
 
 
 
 .address .address-area .title{
   
-        font-family: "Dancing Script";
+    font-family: "Dancing Script";
     font-style: normal; 
     font-weight: 600;
     font-size: 36px;
@@ -399,6 +379,129 @@ background: rgba(13, 21, 24, 1);
   justify-content: center;
   align-items: center;
   margin-bottom: 44px;
+}
+
+
+
+
+
+
+.cards-btn {
+  position: sticky;
+  top: 120px; /* navbar balandligiga mosla */
+  align-self: flex-start;
+}
+
+.card-left-btn {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* MUI Button’ni butunlay o‘zgartiramiz */
+.card-left-btn button {
+  all: unset;                 /* button effektini o‘chiradi */
+  padding: 12px 18px;
+  border-radius: 10px;
+  background: #f3f4f6;
+  color: #374151;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  text-align: center;
+}
+
+/* hover */
+.card-left-btn button:hover {
+  background: #2e7d32;
+  color: white;
+  transform: translateX(4px);
+}
+
+/* active (tanlangan category) */
+.card-left-btn button.MuiButton-containedPrimary {
+  background: #2e7d32;
+  color: white;
+  box-shadow: 0 6px 18px rgba(46, 125, 50, 0.35);
+}
+
+
+.cards-btn {
+  padding-right: 20px;
+  border-right: 1px solid #e5e7eb;
+}
+
+.card-left-btn button {
+  all: unset;
+  box-sizing: border-box;
+
+  width: 160px;        /* MUHIM */
+  height: 44px;        /* MUHIM */
+
+  padding: 0;          /* paddingni olib tashlaymiz */
+  border-radius: 10px;
+
+  background: #f3f4f6;
+  color: #374151;
+  font-weight: 600;
+  font-size: 14px;
+
+  display: flex;       /* textni markazlash */
+  align-items: center;
+  justify-content: center;
+
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+
+
+
+
+
+
+/* Button group joylashuvi */
+.right-top-btn .btn-group {
+  display: flex;
+  gap: 12px;
+}
+
+/* Buttonni oddiy menu-style qilish */
+.right-top-btn .btn-left {
+  all: unset;
+  box-sizing: border-box;
+
+  width: 110px;
+  height: 40px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: #f3f4f6;
+  color: #374151;
+
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: 10px;
+
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+/* Hover */
+.right-top-btn .btn-left:hover {
+  background: #2e7d32;
+  color: white;
+  transform: translateY(-2px);
+}
+
+/* Active (primary bo‘lganda) */
+.right-top-btn .MuiButton-containedPrimary {
+  background: #2e7d32 !important;
+  color: white !important;
+  box-shadow: 0 6px 18px rgba(46, 125, 50, 0.35);
 }
 
 
