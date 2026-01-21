@@ -1,8 +1,7 @@
-
 import React from "react";
-import {Box, Stack } from "@mui/material";
-import Button from "@mui/material/Button";
-import TabPanel from "@mui/lab/TabPanel";
+import { Box, Stack, Typography, Button, Divider, Paper, Chip } from "@mui/material";
+import LocalShippingIcon from "@mui/icons-material/LocalShipping";
+import VerifiedIcon from "@mui/icons-material/Verified";
 import moment from "moment";
 import { useSelector } from "react-redux";
 import { createSelector } from "reselect";
@@ -16,120 +15,138 @@ import OrderService from "../../services/OrderService";
 import { sweetErrorHandling } from "../../../lib/sweetAlert";
 import { T } from "../../../lib/types/common";
 
-
 const processOrdersRetriever = createSelector(
   retrieveProcessOrders,
-  (processOrders) => ({processOrders})
+  (processOrders) => ({ processOrders })
 );
 
-
 interface ProcessOrdersProps {
-    setValue: (input: string) => void;
+  setValue: (input: string) => void;
 }
 
-export default function ProcessOrders (props: ProcessOrdersProps) {
-     const { setValue } = props;
-      const {authMember, setOrderBuilder} = useGlobals();
-      const {processOrders} = useSelector(processOrdersRetriever);
+export default function ProcessOrders(props: ProcessOrdersProps) {
+  const { setValue } = props;
+  const { authMember, setOrderBuilder } = useGlobals();
+  const { processOrders } = useSelector(processOrdersRetriever);
 
-      //** HANDLARS */
-
-      const finishOrderHandler = async (e: T) => {
-    try{
-        if(!authMember) throw new Error(Messages.error2)
-            /// PAYMENT PROCESS
-       const orderId = e.target.value;
-       const input: OrderUpdateInput = {
+  /** HANDLERS */
+  const finishOrderHandler = async (orderId: string) => {
+    try {
+      if (!authMember) throw new Error(Messages.error2);
+      const input: OrderUpdateInput = {
         orderId: orderId,
-        orderStatus: OrderStatus.FINISH
-       };
+        orderStatus: OrderStatus.FINISH,
+      };
 
-      const confirmation = window.confirm("Have you received your order?");
-      if(confirmation){
+      if (window.confirm("Taom yetkazib berildimi va qabul qildingizmi?")) {
         const order = new OrderService();
         await order.updateOrder(input);
-        setValue("3");
+        setValue("3"); // Finished tabga o'tkazish
         setOrderBuilder(new Date());
       }
-
-    } catch(err) {
-        console.log(err)
-        sweetErrorHandling(err).then();
+    } catch (err) {
+      sweetErrorHandling(err).then();
     }
+  };
 
-    
-};
+  return (
+    <Stack spacing={3} sx={{ mt: 2 }}>
+      {processOrders?.map((order: Order) => (
+        <Paper
+          key={order._id}
+          elevation={0}
+          sx={{
+            p: 3,
+            borderRadius: "20px",
+            border: "1px solid #e0e0e0",
+            background: "linear-gradient(to right bottom, #ffffff, #fafafa)",
+          }}
+        >
+          {/* Header section */}
+          <Stack direction="row" justifyContent="space-between" alignItems="flex-start" sx={{ mb: 2 }}>
+            <Box>
+              <Typography variant="h6" sx={{ fontWeight: 700, fontSize: "16px" }}>
+                Order #{order._id.toString().slice(-6).toUpperCase()}
+              </Typography>
+              <Typography variant="caption" color="text.secondary">
+                Tayyorlanmoqda: {moment(order.createdAt).fromNow()}
+              </Typography>
+            </Box>
+            <Chip 
+              label="In Process" 
+              color="primary" 
+              icon={<LocalShippingIcon fontSize="small" />}
+              variant="filled"
+              sx={{ borderRadius: "8px", fontWeight: 600 }}
+            />
+          </Stack>
 
-    return (
-        <TabPanel value={"2"}>
-            <Stack>
-               {processOrders?.map((order: Order) => {
-                return (
-                    <Box key={order._id} className={"order-main-box"}>
-                        <Box className={"order-box-scroll"}>
-                           {order?.orderItems?.map((item: OrderItem) => {
-                            const product: Product = order.productData.filter(
-                                (ele: Product) => item.productId === ele._id
-                            )[0];
-                            const imagePath = `${serverApi}/${product.productImages[0]}`;
-                            return (
-                               <Box key={item._id} className={"orders-name-price"}> 
-                                 <img
-                                 src={imagePath}
-                                 className={"order-dish-img"}
-                                  />
-                                  <p className={"title-dish"}>{product.productName}</p>
-                                  <Box className={"price-box"}>
-                                    <p>$ {item.itemPrice}</p>
-                                    <img src={"/icons/close.svg"} />
-                                    <p>{item.itemQuantity}</p>
-                                    <img src={"/icons/pause.svg"} />
-                                    <p style={{ marginLeft: "15" }}>$  {item.itemQuantity * item.itemPrice}</p> 
+          <Divider sx={{ my: 2, opacity: 0.6 }} />
 
-                                  </Box>
-                               </Box>
-                            );
-                           })}
-                        </Box>
+          {/* Items section */}
+          <Stack spacing={2} sx={{ mb: 3 }}>
+            {order?.orderItems?.map((item: OrderItem) => {
+              const product: Product = order.productData.filter(
+                (ele: Product) => item.productId === ele._id
+              )[0];
+              const imagePath = `${serverApi}/${product?.productImages[0]}`;
 
-                        <Box className={"total-price-box"}>
-                            <Box className={"box-total"}>
-                                <p>Product price</p>
-                               <p>${order.orderTotal - order.orderDelivery}</p>
-                                <img src={"/icons/plus.svg"} />
-                                <p>Delivery cost</p>
-                                <p>${order.orderDelivery}</p>
-                                <img
-                                src={"/icons/pause.svg"}
-                               
-                                />
-                                <p>Total</p>
-                               <p>${order.orderTotal}</p>
-                            </Box>
-                            <p className={"data-campl"}>
-                              {moment().format("YY-MM-DD HH:mm")}</p>
-                            
-                            <Button 
-                            onClick={finishOrderHandler}
-                            value={order._id} variant="contained" 
-                            className={"verify-button"}>
-                                Verify to Fulfil
-                            </Button>
-                        </Box>
-
-                    </Box>
-                );
-               })}
-
-               {!processOrders || (processOrders.length === 0 && (
-                <Box display={"flex"} flexDirection={"row"} justifyContent={"center"}>
+              return (
+                <Stack key={item._id} direction="row" justifyContent="space-between" alignItems="center">
+                  <Stack direction="row" spacing={2} alignItems="center">
                     <img
-                    src={"/icons/noimage-list.svg"}
-                    style={{ width: 300, height: 300 }} 
-                     />
-                </Box>
-               ))}
+                      src={imagePath}
+                      alt={product?.productName}
+                      style={{ width: "55px", height: "55px", borderRadius: "12px", objectFit: "cover" }}
+                    />
+                    <Box>
+                      <Typography variant="body2" fontWeight="700">{product?.productName}</Typography>
+                      <Typography variant="caption" color="text.secondary">${item.itemPrice} x {item.itemQuantity}</Typography>
+                    </Box>
+                  </Stack>
+                  <Typography variant="body2" fontWeight="800">
+                    ${(item.itemQuantity * item.itemPrice).toFixed(2)}
+                  </Typography>
+                </Stack>
+              );
+            })}
+          </Stack>
+
+          {/* Footer section */}
+          <Box sx={{ p: 2, bgcolor: "#f6fbff", borderRadius: "12px" }}>
+            <Stack direction="row" justifyContent="space-between" alignItems="center">
+              <Box>
+                <Typography variant="caption" color="text.secondary" display="block">To'lov miqdori (Delivery bilan)</Typography>
+                <Typography variant="h6" fontWeight="900" color="primary.main">
+                  ${order.orderTotal}
+                </Typography>
+              </Box>
+              
+              <Button
+                variant="contained"
+                color="primary"
+                startIcon={<VerifiedIcon />}
+                onClick={() => finishOrderHandler(order._id)}
+                sx={{
+                  borderRadius: "12px",
+                  textTransform: "none",
+                  boxShadow: "0 8px 16px rgba(25, 118, 210, 0.2)",
+                  px: 3,
+                }}
+              >
+                Tasdiqlash
+              </Button>
             </Stack>
-        </TabPanel>
-    );
+          </Box>
+        </Paper>
+      ))}
+
+      {(!processOrders || processOrders.length === 0) && (
+        <Stack alignItems="center" sx={{ py: 10 }}>
+          <img src="/icons/noimage-list.svg" style={{ width: 140, opacity: 0.5 }} alt="no-data" />
+          <Typography sx={{ mt: 2, color: "text.secondary", fontWeight: 500 }}>Hozircha jarayonda buyurtmalar yo'q</Typography>
+        </Stack>
+      )}
+    </Stack>
+  );
 }

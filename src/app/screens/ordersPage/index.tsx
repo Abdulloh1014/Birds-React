@@ -1,211 +1,177 @@
-import {useState, SyntheticEvent, useEffect} from "react"
-import { Container, Stack, Box } from "@mui/material";
-import Tabs from "@mui/material/Tabs";
-import Tab from "@mui/material/Tab";
+import React, { useState, SyntheticEvent, useEffect } from "react";
+import { 
+  Container, Stack, Box, Tabs, Tab, Typography, 
+  Paper, Avatar, Divider, TextField, Grid 
+} from "@mui/material";
 import TabContext from "@mui/lab/TabContext";
-import LocationOnIcon from "@mui/icons-material/LocationOn";
+import { useDispatch } from "react-redux";
+import { Dispatch } from "@reduxjs/toolkit";
+import { useHistory } from "react-router-dom";
+
+import { setPausedOrders, setProcessOrders, setFinishedOrders } from "./slice";
+import { Order, OrderInquiry } from "../../../lib/types/order";
+import { OrderStatus } from "../../../lib/enums/order.enum";
+import { MemberType } from "../../../lib/enums/member.enum";
+import OrderService from "../../services/OrderService";
+import { useGlobals } from "../../hooks/useGlobals";
+import { serverApi } from "../../../lib/config";
+
 import ProcessOrders from "./ProcessOrders";
 import PausedOrders from "./PausedOrders";
 import FinishedOrders from "./FinishedOrders";
-import { useDispatch } from "react-redux";
-import { Dispatch } from "@reduxjs/toolkit";
-import {setPausedOrders, setProcessOrders, setFinishedOrders} from "./slice";
-import { Order, OrderInquiry } from "../../../lib/types/order";
-import { OrderStatus } from "../../../lib/enums/order.enum";
-import OrderService from "../../services/OrderService";
-import { useGlobals } from "../../hooks/useGlobals";
-import "../../../css/order.css";
-import { useHistory } from "react-router-dom";
-import { serverApi } from "../../../lib/config";
-import { MemberType } from "../../../lib/enums/member.enum";
 
-
-/** REDUX SLICE & SELECTOR   */
 const actionDispatch = (dispatch: Dispatch) => ({
   setPausedOrders: (data: Order[]) => dispatch(setPausedOrders(data)),
   setProcessOrders: (data: Order[]) => dispatch(setProcessOrders(data)),
   setFinishedOrders: (data: Order[]) => dispatch(setFinishedOrders(data)),
-
 });
 
-
-
 export default function OrdersPage() {
+  const { setPausedOrders, setProcessOrders, setFinishedOrders } = actionDispatch(useDispatch());
+  const { orderBuilder, authMember } = useGlobals();
+  const history = useHistory();
+  const [value, setValue] = useState("1");
+  const [orderInquiry] = useState<OrderInquiry>({
+    page: 1,
+    limit: 5,
+    orderStatus: OrderStatus.PAUSE,
+  });
 
-   const { setPausedOrders, setProcessOrders, setFinishedOrders } = 
-   actionDispatch(useDispatch());
-   const {orderBuilder, authMember} = useGlobals();
-   const history = useHistory();
-   const [value, setValue] = useState("1");
-   const [orderInquiry, setOrderInquiry] = useState<OrderInquiry>({
-      page: 1,
-      limit: 5,
-      orderStatus: OrderStatus.PAUSE,
+  useEffect(() => {
+    const order = new OrderService();
+    order.getMyOrder({ ...orderInquiry, orderStatus: OrderStatus.PAUSE }).then(setPausedOrders);
+    order.getMyOrder({ ...orderInquiry, orderStatus: OrderStatus.PROCESS }).then(setProcessOrders);
+    order.getMyOrder({ ...orderInquiry, orderStatus: OrderStatus.FINISH }).then(setFinishedOrders);
+  }, [orderInquiry, orderBuilder, setPausedOrders, setProcessOrders, setFinishedOrders]);
 
-   })
+  const handleChange = (e: SyntheticEvent, newValue: string) => setValue(newValue);
 
-
-   useEffect(() => {
-      // 1) Backend dan data olish
-     const order = new OrderService();
-
-     order
-     .getMyOrder({ ...orderInquiry, orderStatus: OrderStatus.PAUSE })
-     .then((data) => setPausedOrders(data))    // 2) Rudux Slice ga saqlash
-     .catch((err) => console.log(err));
-
-     order
-     .getMyOrder({ ...orderInquiry, orderStatus: OrderStatus.PROCESS })
-     .then((data) => setProcessOrders(data))
-     .catch((err) => console.log(err));
-
-     order
-     .getMyOrder({ ...orderInquiry, orderStatus: OrderStatus.FINISH })
-     .then((data) => setFinishedOrders(data))
-     .catch((err) => console.log(err));
-     
-   }, [orderInquiry, orderBuilder])       // 4) Ishga tushirish
-   /** Handlers */
-
-  const handleChange = ( e: SyntheticEvent, newValue: string) => {
-    setValue(newValue);
-  };
-
-    if(!authMember) history.push("/");
+  if (!authMember) history.push("/");
 
   return (
-         <div className={"order-page"}>
-             <Container className="order-container">
-              <Stack className={"oreder-left"}>
-                 <TabContext value={value}>
-                    <Box className={"order-nav-frame"}>
-                       <Box sx={{borderBottom: 1, borderColor: "divider" }}>
-                         <Tabs
-                         value={value}
-                         onChange={handleChange}
-                         aria-label="basic tabs example"
-                         className={"table_list"}
-                         >
-                          <Tab label="PAUSED ORDERS" value={"1"}/>
-                          <Tab label="PROCESS ORDERS" value={"2"}/>
-                          <Tab label="FINISH ORDERS" value={"3"}/>
+    <Box sx={{ py: 5, backgroundColor: "#f8f9fa", minHeight: "100vh" }}>
+      <Container maxWidth="lg">
+        <Grid container spacing={3}>
+          
+          {/* LEFT SIDE: ORDERS LIST */}
+          <Grid item xs={12} md={8}>
+            <TabContext value={value}>
+              <Paper sx={{ borderRadius: "12px", boxShadow: "0px 2px 10px rgba(0,0,0,0.05)" }}>
+                <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+                  <Tabs 
+                    value={value} 
+                    onChange={handleChange} 
+                    variant="fullWidth"
+                    sx={{ "& .MuiTab-root": { fontWeight: "bold", py: 2 } }}
+                  >
+                    <Tab label="PAUSED" value="1" />
+                    <Tab label="PROCESS" value="2" />
+                    <Tab label="FINISHED" value="3" />
+                  </Tabs>
+                </Box>
+                
+                <Box sx={{ p: 2, minHeight: "400px" }}>
+                  {value === "1" && <PausedOrders setValue={setValue} />}
+                  {value === "2" && <ProcessOrders setValue={setValue} />}
+                  {value === "3" && <FinishedOrders />}
+                </Box>
+              </Paper>
+            </TabContext>
+          </Grid>
 
-                         </Tabs>
-                       </Box>
-                    </Box>
-                    <Stack className={"order-main-content"}>
-                       <PausedOrders setValue={setValue} />
-                       <ProcessOrders setValue={setValue} />
-                       <FinishedOrders />
-                    </Stack>
-                 </TabContext>
-              </Stack>
-
-
-
-
-              <Stack className={"order-right"}>
-                <Box className={"order-info-box"}>
-                  <Box className={"member-box"}>
-                     <div className={"order-user-img"}>
-                        <img
-                         src={ authMember?.memberImage
-                        ? `${serverApi}/${authMember.memberImage}`
-                        : "/icons/default-user.svg"}
-
-                         className={"order-user-avatar"}
-                         />
-                         <div className={"order-user-icon-box"}>
-                            <img
-                            src={ authMember?.memberType === MemberType.FOUNDER 
-                      ? "/icons/restaurant.svg"
-                      : "/icons/user-badge.svg"}
-                            className={"order-user-prof-img"} 
-                            />
-                         </div>
-                     </div>
-                     <p className={"order-user-name"}>{authMember?.memberNick}</p>
-                     <p className={"order-user"}>{authMember?.memberType}</p>
-                     <div className={"liner"}></div>
-
-                     <div className={"location"}>
-                        <img 
-                        src={"/icons/location.svg"}
-                        className={"user-location"}
-                        />
-                        <p className={"location-info"}>{
-                            authMember?.memberAddress
-                ? authMember.memberAddress : "Do not exist"
-                           }</p>
-                     </div>
+          {/* RIGHT SIDE: PROFILE & PAYMENT */}
+          <Grid item xs={12} md={4}>
+            <Stack spacing={3}>
+              
+              {/* Profile Section */}
+              <Paper sx={{ p: 3, textAlign: "center", borderRadius: "12px" }}>
+                <Box sx={{ position: "relative", width: "100px", height: "100px", margin: "0 auto 15px" }}>
+                  <Avatar
+                    src={authMember?.memberImage ? `${serverApi}/${authMember.memberImage}` : "/icons/default-user.svg"}
+                    sx={{ width: 100, height: 100, border: "2px solid #eee" }}
+                  />
+                  <Box sx={{ position: "absolute", bottom: 0, right: 0, bgcolor: "#fff", p: "4px", borderRadius: "50%", boxShadow: 1, display: "flex" }}>
+                    <img 
+                      src={authMember?.memberType === MemberType.FOUNDER ? "/icons/restaurant.svg" : "/icons/user-badge.svg"} 
+                      width="20px" alt="badge" 
+                    />
                   </Box>
                 </Box>
+                <Typography variant="h6" sx={{ fontWeight: 700 }}>{authMember?.memberNick}</Typography>
+                <Typography variant="body2" color="primary" sx={{ mb: 2, fontWeight: 500 }}>{authMember?.memberType}</Typography>
+                
+                <Divider sx={{ my: 2 }} />
+                
+                <Stack direction="row" spacing={1} justifyContent="center" alignItems="center">
+                  <img src="/icons/location.svg" width="18px" alt="loc" />
+                  <Typography variant="body2" color="textSecondary">
+                    {authMember?.memberAddress || "Address not provided"}
+                  </Typography>
+                </Stack>
+              </Paper>
 
-
-
-
-
-
-                <Stack className={"input-card-info"}>
-                  <Box className={"input-card-number"}>
-                     <input 
-                     type="text"
-                     placeholder="Card number 09890 7678 98745"
-                     style={{width: "333px",
-                           height: "36px",}}
-                     />
-                  </Box>
-                  <Box className={"input-sana"}>
-                     <input
-                     type="text"
-                     placeholder="07/24"
-                     style={{width: "133px",
-                           height: "36px",}}
+              {/* Payment Card Section */}
+              <Paper sx={{ p: 3, borderRadius: "12px", bgcolor: "#2c3e50", color: "#fff" }}>
+                <Typography variant="subtitle2" sx={{ mb: 2, opacity: 0.8, letterSpacing: 1 }}>PAYMENT CARD</Typography>
+                
+                <Stack spacing={2.5}>
+                  <TextField 
+                    fullWidth 
+                    placeholder="Card Number" 
+                    variant="standard"
+                    InputProps={{ 
+                      disableUnderline: true, 
+                      sx: { color: "#fff", bgcolor: "rgba(255,255,255,0.08)", px: 2, py: 1, borderRadius: "6px" } 
+                    }}
+                  />
+                  
+                  <Grid container spacing={2}>
+                    <Grid item xs={6}>
+                      <TextField 
+                        placeholder="MM/YY" 
+                        variant="standard"
+                        InputProps={{ 
+                          disableUnderline: true, 
+                          sx: { color: "#fff", bgcolor: "rgba(255,255,255,0.08)", px: 2, py: 1, borderRadius: "6px" } 
+                        }}
                       />
-                         <input
-                     type="text"
-                     placeholder="CVV:010"
-                     style={{width: "133px",
-                           height: "36px",}}
+                    </Grid>
+                    <Grid item xs={6}>
+                      <TextField 
+                        placeholder="CVV" 
+                        variant="standard"
+                        InputProps={{ 
+                          disableUnderline: true, 
+                          sx: { color: "#fff", bgcolor: "rgba(255,255,255,0.08)", px: 2, py: 1, borderRadius: "6px" } 
+                        }}
                       />
+                    </Grid>
+                  </Grid>
 
-                  </Box>
-                  <Box className={"input-name"}> 
-                          <input 
-                     type="text"
-                     placeholder="Albert Robertson"
-                     style={{width: "333px",
-                           height: "36px",}}
-                     />
-                  </Box>
-                  <Stack className={"input-check-cards"}>
-                     <img 
-                     src={"/icons/western-card.svg"}
-                     className={"plast"}
-                     />
-                     <img 
-                     src={"/icons/master-card.svg"}
-                      className={"plast"}
-                     />
-                     <img 
-                     src={"/icons/paypal-card.svg"}
-                      className={"plast"}
-                     />
-                     <img 
-                     src={"/icons/visa-card.svg"}
-                      className={"plast"}
-                     />
+                  <TextField 
+                    fullWidth 
+                    placeholder="Card Holder Name" 
+                    variant="standard"
+                    InputProps={{ 
+                      disableUnderline: true, 
+                      sx: { color: "#fff", bgcolor: "rgba(255,255,255,0.08)", px: 2, py: 1, borderRadius: "6px" } 
+                    }}
+                  />
+
+                  <Stack direction="row" spacing={1} justifyContent="center" sx={{ mt: 1 }}>
+                    <img src="/icons/western-card.svg" height="20" alt="card" />
+                    <img src="/icons/master-card.svg" height="20" alt="card" />
+                    <img src="/icons/paypal-card.svg" height="20" alt="card" />
+                    <img src="/icons/visa-card.svg" height="20" alt="card" />
                   </Stack>
                 </Stack>
-              </Stack>
+              </Paper>
 
+            </Stack>
+          </Grid>
 
-             </Container>
-         </div>
-  )
-
-
-
+        </Grid>
+      </Container>
+    </Box>
+  );
 }
-
-

@@ -1,8 +1,13 @@
 import React from "react";
-import { Box, Button, Stack, Typography, IconButton } from "@mui/material";
-import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
-import Menu from "@mui/material/Menu";
-import { Cancel as CancelIcon, ShoppingCart as ShoppingCartIcon } from "@mui/icons-material";
+import { 
+  Box, Button, Stack, Typography, IconButton, 
+  Divider, Drawer, Tooltip 
+} from "@mui/material";
+import DeleteSweepIcon from '@mui/icons-material/DeleteSweep';
+import ShoppingBagOutlinedIcon from '@mui/icons-material/ShoppingBagOutlined';
+import AddIcon from '@mui/icons-material/Add';
+import RemoveIcon from '@mui/icons-material/Remove';
+import CloseIcon from '@mui/icons-material/Close';
 import { useHistory } from "react-router-dom";
 import { CartItem } from "../../../lib/types/search";
 import { Messages, serverApi } from "../../../lib/config";
@@ -24,56 +29,60 @@ export default function Basket(props: BasketProps) {
     const history = useHistory();
 
     const itemsPrice: number = cartItems.reduce((a, c) => a + c.quantity * c.price, 0);
-    const shippingCost: number = itemsPrice < 100 ? 5 : 0;
-    const totalPrice = (itemsPrice + shippingCost).toFixed(1);
+    const shippingCost: number = itemsPrice > 0 && itemsPrice < 100 ? 5 : 0;
+    const totalPrice = (itemsPrice + shippingCost).toFixed(2);
 
-    const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-    const open = Boolean(anchorEl);
+    const [drawerOpen, setDrawerOpen] = React.useState(false);
 
-    const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => setAnchorEl(e.currentTarget);
-    const handleClose = () => setAnchorEl(null);
+    const toggleDrawer = (open: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => {
+        setDrawerOpen(open);
+    };
 
     const proceedOrderHandler = async () => {
         try {
-            handleClose();
             if (!authMember) throw new Error(Messages.error2);
-
             const order = new OrderService();
             await order.createOrder(cartItems);
             onDeleteAll();
             setOrderBuilder(new Date());
+            setDrawerOpen(false);
             history.push("/orders");
         } catch (err) {
-            console.log(err);
             sweetErrorHandling(err).then();
         }
     };
 
     return (
         <Box>
-            <IconButton
-                aria-label="cart"
-                onClick={handleClick}
-                sx={{ position: "relative", color: "gold" }}
+            {/* Custom Shopping Bag Button with Manual Count */}
+            <IconButton 
+                onClick={toggleDrawer(true)} 
+                sx={{ 
+                    position: "relative", 
+                    color: "#222",
+                    "&:hover": { bgcolor: "rgba(0,0,0,0.04)" } 
+                }}
             >
-                <ShoppingCartIcon sx={{ fontSize: 28 }} />
+                <ShoppingBagOutlinedIcon sx={{ fontSize: 30 }} />
                 {cartItems.length > 0 && (
                     <Box
                         sx={{
                             position: "absolute",
-                            top: -6,
-                            right: -6,
-                            bgcolor: "secondary.main",
+                            top: 4,
+                            right: 4,
+                            bgcolor: "#d32f2f",
                             color: "#fff",
                             borderRadius: "50%",
-                            width: 18,
-                            height: 18,
+                            minWidth: "18px",
+                            height: "18px",
+                            fontSize: "11px",
+                            fontWeight: "bold",
                             display: "flex",
                             alignItems: "center",
                             justifyContent: "center",
-                            fontSize: 12,
-                            fontWeight: "bold",
-                            boxShadow: 1
+                            px: 0.5,
+                            border: "2px solid #fff",
+                            boxShadow: "0 2px 4px rgba(0,0,0,0.2)"
                         }}
                     >
                         {cartItems.length}
@@ -81,135 +90,138 @@ export default function Basket(props: BasketProps) {
                 )}
             </IconButton>
 
-            <Menu
-                anchorEl={anchorEl}
-                open={open}
-                onClose={handleClose}
-                PaperProps={{
-                    elevation: 3,
-                    sx: {
-                        p: 2,
-                        width: 450,
-                        borderRadius: 3,
-                        boxShadow: "0px 4px 12px rgba(0,0,0,0.1)"
-                    },
+            <Drawer
+                anchor="right"
+                open={drawerOpen}
+                onClose={toggleDrawer(false)}
+                PaperProps={{ 
+                    sx: { 
+                        width: { xs: "100%", sm: 420 }, 
+                        p: 0,
+                        boxShadow: "-4px 0 15px rgba(0,0,0,0.1)" 
+                    } 
                 }}
-                transformOrigin={{ horizontal: "right", vertical: "top" }}
-                anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
             >
-                <Stack spacing={2}>
-                    {/* Cart Header */}
-                    <Box display="flex" justifyContent="space-between" alignItems="center">
-                        <Typography variant="subtitle1" fontWeight={600}>
-                            {cartItems.length ? "Cart Products" : "Cart is empty!"}
+                <Stack sx={{ height: "100%" }}>
+                    {/* Header */}
+                    <Box sx={{ p: 3, display: "flex", justifyContent: "space-between", alignItems: "center", bgcolor: "#fff" }}>
+                        <Typography variant="h6" fontWeight={800} sx={{ letterSpacing: "-0.5px" }}>
+                            MY CART ({cartItems.length})
                         </Typography>
-                        {cartItems.length > 0 && (
-                            <IconButton onClick={onDeleteAll} color="error">
-                                <DeleteForeverIcon />
-                            </IconButton>
-                        )}
+                        <IconButton onClick={toggleDrawer(false)} sx={{ color: "#000" }}>
+                            <CloseIcon />
+                        </IconButton>
                     </Box>
 
-                    {/* Cart Items */}
-                    {cartItems.map(item => (
-                        <Box
-                            key={item._id}
-                            display="flex"
-                            alignItems="center"
-                            justifyContent="space-between"
-                            sx={{
-                                p: 1,
-                                borderRadius: 2,
-                                boxShadow: 1,
-                                bgcolor: "background.paper",
-                                transition: "transform 0.2s",
-                                "&:hover": { transform: "scale(1.02)" }
-                            }}
-                        >
-                            <Box display="flex" alignItems="center">
-                                <IconButton onClick={() => onDelete(item)} size="small">
-                                    <CancelIcon fontSize="small" color="primary" />
-                                </IconButton>
-                                <img
-                                    src={`${serverApi}/${item.image}`}
-                                    alt={item.name}
-                                    style={{
-                                        width: 50,
-                                        height: 50,
-                                        borderRadius: 8,
-                                        marginRight: 8,
-                                        objectFit: "cover"
-                                    }}
-                                />
-                                <Box>
-                                    <Typography fontWeight={500}>{item.name}</Typography>
-                                    <Typography variant="body2" color="text.secondary">
-                                        ${item.price} x {item.quantity}
+                    <Divider />
+
+                    {/* Scrollable Items List */}
+                    <Stack spacing={2.5} sx={{ flexGrow: 1, overflowY: "auto", p: 3 }}>
+                        {cartItems.length === 0 ? (
+                            <Stack alignItems="center" justifyContent="center" sx={{ height: "60%" }}>
+                                <img src="/icons/empty-cart.svg" width={100} alt="Empty" style={{ opacity: 0.3, marginBottom: "20px" }} />
+                                <Typography variant="h6" color="text.secondary" fontWeight={600}>Savatcha bo'sh</Typography>
+                                <Typography variant="body2" color="text.disabled">Hali hech narsa qo'shmadingiz</Typography>
+                            </Stack>
+                        ) : (
+                            cartItems.map((item) => (
+                                <Box key={item._id} sx={{ display: "flex", gap: 2 }}>
+                                    <Box sx={{ position: "relative" }}>
+                                        <img
+                                            src={`${serverApi}/${item.image}`}
+                                            alt={item.name}
+                                            style={{ width: 90, height: 90, borderRadius: 16, objectFit: "cover" }}
+                                        />
+                                    </Box>
+                                    
+                                    <Box sx={{ flexGrow: 1, display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
+                                        <Box display="flex" justifyContent="space-between" alignItems="flex-start">
+                                            <Typography variant="subtitle1" fontWeight={700} sx={{ lineHeight: 1.2 }}>
+                                                {item.name}
+                                            </Typography>
+                                            <IconButton size="small" onClick={() => onDelete(item)} sx={{ mt: -0.5 }}>
+                                                <CloseIcon fontSize="small" />
+                                            </IconButton>
+                                        </Box>
+                                        
+                                        <Typography variant="body2" color="primary.main" fontWeight={700}>
+                                            ${item.price}
+                                        </Typography>
+
+                                        <Box display="flex" alignItems="center" justifyContent="space-between">
+                                            <Stack direction="row" alignItems="center" sx={{ bgcolor: "#f0f2f5", borderRadius: "10px", px: 0.5 }}>
+                                                <IconButton size="small" onClick={() => onRemove(item)} sx={{ color: "#000" }}>
+                                                    <RemoveIcon fontSize="inherit" />
+                                                </IconButton>
+                                                <Typography sx={{ mx: 1.5, fontWeight: 700, fontSize: "14px" }}>{item.quantity}</Typography>
+                                                <IconButton size="small" onClick={() => onAdd(item)} sx={{ color: "#000" }}>
+                                                    <AddIcon fontSize="inherit" />
+                                                </IconButton>
+                                            </Stack>
+                                            <Typography fontWeight={800} variant="body1">
+                                                ${(item.price * item.quantity).toFixed(2)}
+                                            </Typography>
+                                        </Box>
+                                    </Box>
+                                </Box>
+                            ))
+                        )}
+                    </Stack>
+
+                    {/* Footer Summary */}
+                    {cartItems.length > 0 && (
+                        <Box sx={{ p: 4, bgcolor: "#fff", borderTop: "2px solid #f0f2f5" }}>
+                            <Stack spacing={1.5} sx={{ mb: 3 }}>
+                                <Box display="flex" justifyContent="space-between">
+                                    <Typography color="text.secondary" variant="body2">Subtotal</Typography>
+                                    <Typography fontWeight={600}>${itemsPrice.toFixed(2)}</Typography>
+                                </Box>
+                                <Box display="flex" justifyContent="space-between">
+                                    <Typography color="text.secondary" variant="body2">Delivery</Typography>
+                                    <Typography fontWeight={600}>${shippingCost.toFixed(2)}</Typography>
+                                </Box>
+                                <Divider sx={{ my: 1 }} />
+                                <Box display="flex" justifyContent="space-between" alignItems="center">
+                                    <Typography variant="h6" fontWeight={800}>Total</Typography>
+                                    <Typography variant="h5" fontWeight={900} color="primary.main">
+                                        ${totalPrice}
                                     </Typography>
                                 </Box>
-                            </Box>
+                            </Stack>
 
-                            <Box display="flex" gap={1}>
-
-
-                              <Button
-  size="small"
-  variant="outlined"
-  onClick={() => onRemove(item)}
-  sx={{
-    
-    color: 'success.main', // oddiy holat rangi
-    borderColor: 'success.main',
-    '&:hover': {
-      backgroundColor: 'success.main', // hoverda fon rangi
-      color: 'white', // hoverda text rangi
-      borderColor: 'success.dark', // hoverda border
-    },
-  }}
->
-  -
-</Button>
-
-
-
-
+                            <Stack direction="row" spacing={2}>
+                                <Tooltip title="Clear All">
+                                    <Button 
+                                        variant="outlined" 
+                                        color="inherit" 
+                                        onClick={onDeleteAll} 
+                                        sx={{ borderRadius: "14px", minWidth: "60px", borderColor: "#ddd" }}
+                                    >
+                                        <DeleteSweepIcon />
+                                    </Button>
+                                </Tooltip>
                                 <Button
-                                sx={{
-    color: 'success.main', // oddiy holat rangi
-    borderColor: 'success.main',
-    '&:hover': {
-      backgroundColor: 'success.main', // hoverda fon rangi
-      color: 'white', // hoverda text rangi
-      borderColor: 'success.dark', // hoverda border
-    },
-  }}
-                                 size="small" variant="outlined" onClick={() => onAdd(item)}>+</Button>
-
-
-
-                            </Box>
-                        </Box>
-                    ))}
-
-                    {/* Total & Order Button */}
-                    {cartItems.length > 0 && (
-                        <Box display="flex" flexDirection="column" gap={1} mt={1}>
-                            <Typography fontWeight={600} textAlign="right">
-                                Total: ${totalPrice} ({itemsPrice} + {shippingCost})
-                            </Typography>
-                            <Button
-                                variant="contained"
-                                color="success"
-                                startIcon={<ShoppingCartIcon />}
-                                onClick={proceedOrderHandler}
-                                sx={{ borderRadius: 2 }}
-                            >
-                                Proceed to Order
-                            </Button>
+                                    fullWidth
+                                    variant="contained"
+                                    onClick={proceedOrderHandler}
+                                    sx={{ 
+                                        borderRadius: "14px", 
+                                        textTransform: "none", 
+                                        fontWeight: 800, 
+                                        fontSize: "16px",
+                                        py: 1.5,
+                                        bgcolor: "#000",
+                                        boxShadow: "0 10px 20px rgba(0,0,0,0.1)",
+                                        "&:hover": { bgcolor: "#222" }
+                                    }}
+                                >
+                                    Proceed to Checkout
+                                </Button>
+                            </Stack>
                         </Box>
                     )}
                 </Stack>
-            </Menu>
+            </Drawer>
         </Box>
     );
 }

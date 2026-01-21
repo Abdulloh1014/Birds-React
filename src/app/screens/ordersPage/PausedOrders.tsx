@@ -1,8 +1,7 @@
 import React from "react";
-import {Box, Stack} from "@mui/material";
-import Button from "@mui/material/Button";
-import TabPanel from "@mui/lab/TabPanel";
-
+import { Box, Stack, Typography, Button, Divider, Paper } from "@mui/material";
+import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
+import PaymentIcon from "@mui/icons-material/Payment";
 import { useSelector } from "react-redux";
 import { createSelector } from "reselect";
 import { retrievePausedOrders } from "./selector";
@@ -15,172 +14,171 @@ import { OrderStatus } from "../../../lib/enums/order.enum";
 import { useGlobals } from "../../hooks/useGlobals";
 import OrderService from "../../services/OrderService";
 
-
 const pausedOrdersRetriever = createSelector(
   retrievePausedOrders,
-  (pausedOrders) => ({pausedOrders})
+  (pausedOrders) => ({ pausedOrders })
 );
 
 interface PausedOrdersProps {
-    setValue: (input: string) => void;
+  setValue: (input: string) => void;
 }
 
-export default function PausedOrders (props: PausedOrdersProps) {
-        const { setValue } = props;
-        const {authMember, setOrderBuilder} = useGlobals();
-        const {pausedOrders} = useSelector(pausedOrdersRetriever);
+export default function PausedOrders(props: PausedOrdersProps) {
+  const { setValue } = props;
+  const { authMember, setOrderBuilder } = useGlobals();
+  const { pausedOrders } = useSelector(pausedOrdersRetriever);
 
-        /** Handlers */
-const deleteOrderHandler = async (e: T) => {
-    try{
-        if(!authMember) throw new Error(Messages.error2)
-       const orderId = e.target.value;
-       const input: OrderUpdateInput = {
+  /** Handlers */
+  const deleteOrderHandler = async (e: T) => {
+    try {
+      if (!authMember) throw new Error(Messages.error2);
+      const orderId = e.currentTarget.value;
+      const input: OrderUpdateInput = {
         orderId: orderId,
-        orderStatus: OrderStatus.DELETE
-       };
+        orderStatus: OrderStatus.DELETE,
+      };
 
-      const confirmation = window.confirm("Do you want to cancel this order?");
-      if(confirmation){
+      if (window.confirm("Do you want to cancel this order?")) {
         const order = new OrderService();
         await order.updateOrder(input);
         setOrderBuilder(new Date());
       }
-
-    } catch(err) {
-        console.log(err)
-        sweetErrorHandling(err).then();
+    } catch (err) {
+      sweetErrorHandling(err).then();
     }
+  };
 
-    
-};
-
-const prcessOrderHandler = async (e: T) => {
-    try{
-        if(!authMember) throw new Error(Messages.error2)
-            /// PAYMENT PROCESS
-       const orderId = e.target.value;
-       const input: OrderUpdateInput = {
+  const processOrderHandler = async (e: T) => {
+    try {
+      if (!authMember) throw new Error(Messages.error2);
+      const orderId = e.currentTarget.value;
+      const input: OrderUpdateInput = {
         orderId: orderId,
-        orderStatus: OrderStatus.PROCESS
-       };
+        orderStatus: OrderStatus.PROCESS,
+      };
 
-      const confirmation = window.confirm("Do you want to proceed with payment?");
-      if(confirmation){
+      if (window.confirm("Do you want to proceed with payment?")) {
         const order = new OrderService();
         await order.updateOrder(input);
         setValue("2");
         setOrderBuilder(new Date());
       }
-
-    } catch(err) {
-        console.log(err)
-        sweetErrorHandling(err).then();
+    } catch (err) {
+      sweetErrorHandling(err).then();
     }
+  };
 
-    
-};
+  return (
+    <Stack spacing={3} sx={{ mt: 2 }}>
+      {pausedOrders?.map((order: Order) => (
+        <Paper 
+          key={order._id} 
+          elevation={0} 
+          sx={{ 
+            p: 2, 
+            borderRadius: "12px", 
+            border: "1px solid #eee",
+            backgroundColor: "#fff"
+          }}
+        >
+          {/* Order Items List */}
+          <Stack spacing={2}>
+            {order?.orderItems?.map((item: OrderItem) => {
+              const product = order.productData?.find((ele: Product) => item.productId === ele._id);
+              const imagePath = product?.productImages?.[0]
+                ? `${serverApi}/${product.productImages[0]}`
+                : "/icons/noimage.svg";
 
-
-
-
-    return (
-        <TabPanel value={"1"}>
-            <Stack>
-               {pausedOrders?.map((order: Order) => {
-                return (
-                    <Box key={order._id} className={"order-main-box"}>
-                        <Box className={"order-box-scroll"}>
-                           {order?.orderItems?.map((item: OrderItem) => {
-
-
-                            // const product: Product = order.productData.filter(
-                            //     (ele: Product) => item.productId === ele._id
-                            // )[0];
-                            // const imagePath = `${serverApi}/${product.productImages[0]}`;
-
-                            const product = order.productData?.find(
-  (ele: Product) => item.productId === ele._id
-);
-
-const imagePath = product?.productImages?.[0]
-  ? `${serverApi}/${product.productImages[0]}`
-  : "/icons/noimage.svg";   // yoki boshqa placeholder
-
-
-                            return (
-                               <Box key={item._id} className={"orders-name-price"}> 
-                                 <img
-                                 src={imagePath}
-                                 className={"order-dish-img"}
-                                  />
-                                  {/* <p className={"title-dish"}>{product.productName}</p> */}
-                                  <p className={"title-dish"}>
-  {product?.productName || "Mahsulot o‘chirilgan"}
-</p>
-
-
-                                  <Box className={"price-box"}>
-                                    <p>$ {item.itemPrice}</p>
-                                    <img src={"/icons/close.svg"} />
-                                    <p>{item.itemQuantity}</p>
-                                    <img src={"/icons/pause.svg"} />
-                                    <p style={{ marginLeft: "15" }}>$ {item.itemQuantity * item.itemPrice}</p> 
-
-                                  </Box>
-                               </Box>
-                            );
-                           })}
-                        </Box>
-
-                        <Box className={"total-price-box"}>
-                            <Box className={"box-total"}>
-                                <p>Product price</p>
-                                <p>${order.orderTotal - order.orderDelivery}</p>
-                                <img src={"/icons/plus.svg"}  />
-                                <p>Delivery cost</p>
-                                <p>${order.orderDelivery}</p>
-                                <img
-                                src={"/icons/pause.svg"}
-                                
-                                />
-                                <p>Total</p>
-                                <p>${order.orderTotal}</p>
-                            </Box>
-                            <Box className={"total-btn"}>
-                            <Button
-                              value={order._id}
-                              variant="contained"
-                              color="secondary"
-                              className={"cancel-button"} 
-                                onClick={deleteOrderHandler}
-                            >
-                                Cancel
-                            </Button>
-                            <Button 
-                            onClick={prcessOrderHandler}
-                            value={order._id} variant="contained" className={"pay-button"}>
-                                Payment
-                            </Button>
-                            </Box>
-                     
-                        </Box>
-
-                    </Box>
-                );
-               })}
-
-               {!pausedOrders || 
-               (pausedOrders.length === 0 && (
-                <Box
-                 display={"flex"} flexDirection={"row"} justifyContent={"center"}>
+              return (
+                <Box 
+                  key={item._id} 
+                  sx={{ 
+                    display: "flex", 
+                    alignItems: "center", 
+                    justifyContent: "space-between" 
+                  }}
+                >
+                  <Stack direction="row" spacing={2} alignItems="center">
                     <img
-                    src={"/icons/noimage-list.svg"}
-                    style={{ width: 300, height: 300 }} 
-                     />
+                      src={imagePath}
+                      alt={product?.productName}
+                      style={{ 
+                        width: "60px", 
+                        height: "60px", 
+                        borderRadius: "8px", 
+                        objectFit: "cover" 
+                      }}
+                    />
+                    <Box>
+                      <Typography variant="subtitle2" fontWeight="600">
+                        {product?.productName || "Product deleted"}
+                      </Typography>
+                      <Typography variant="caption" color="text.secondary">
+                        ${item.itemPrice} x {item.itemQuantity}
+                      </Typography>
+                    </Box>
+                  </Stack>
+                  <Typography variant="body2" fontWeight="700">
+                    ${(item.itemQuantity * item.itemPrice).toFixed(2)}
+                  </Typography>
                 </Box>
-               ))}
+              );
+            })}
+          </Stack>
+
+          <Divider sx={{ my: 2 }} />
+
+          {/* Order Summary & Actions */}
+          <Stack 
+            direction="row" 
+            justifyContent="space-between" 
+            alignItems="center"
+          >
+            <Stack direction="row" spacing={3}>
+              <Box>
+                <Typography variant="caption" color="text.secondary" display="block">Total Price</Typography>
+                <Typography variant="subtitle1" fontWeight="700">${order.orderTotal}</Typography>
+              </Box>
+              <Box>
+                <Typography variant="caption" color="text.secondary" display="block">Delivery</Typography>
+                <Typography variant="subtitle1" fontWeight="700" color="primary.main">${order.orderDelivery}</Typography>
+              </Box>
             </Stack>
-        </TabPanel>
-    );
+
+            <Stack direction="row" spacing={1}>
+              <Button
+                value={order._id}
+                variant="outlined"
+                color="error"
+                size="small"
+                startIcon={<DeleteForeverIcon />}
+                onClick={deleteOrderHandler}
+                sx={{ textTransform: "none", borderRadius: "8px" }}
+              >
+                Cancel
+              </Button>
+              <Button
+                value={order._id}
+                variant="contained"
+                color="primary"
+                size="small"
+                startIcon={<PaymentIcon />}
+                onClick={processOrderHandler}
+                sx={{ textTransform: "none", borderRadius: "8px", boxShadow: "none" }}
+              >
+                Payment
+              </Button>
+            </Stack>
+          </Stack>
+        </Paper>
+      ))}
+
+      {(!pausedOrders || pausedOrders.length === 0) && (
+        <Stack alignItems="center" justifyContent="center" sx={{ py: 10 }}>
+          <img src="/icons/noimage-list.svg" alt="no-orders" style={{ width: 150, opacity: 0.5 }} />
+          <Typography color="text.secondary" sx={{ mt: 2 }}>No paused orders found</Typography>
+        </Stack>
+      )}
+    </Stack>
+  );
 }

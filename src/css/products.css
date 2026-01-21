@@ -504,10 +504,19 @@ text-align: left;
   box-shadow: 0 6px 18px rgba(46, 125, 50, 0.35);
 }
 
+.basket-icon {
+   width: 24px;
+  height: 24px;
+ 
+}
 
 
 
-/** ChosenProduct */
+
+
+
+
+
 
 /** ChosenProduct **/
 
@@ -683,11 +692,8 @@ text-align: left;
   margin-top: 40px;
 }
 
-.basket-icon {
-   width: 24px;
-  height: 24px;
  
-}
+
 
 
 

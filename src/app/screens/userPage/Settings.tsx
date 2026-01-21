@@ -1,157 +1,144 @@
-import { Box } from "@mui/material";
-import CloudDownloadIcon from "@mui/icons-material/CloudDownload";
-import Button from "@mui/material/Button";
+import React, { useState } from "react";
+import { 
+  Box, Container, Stack, Typography, Button, TextField, 
+  Avatar, Paper, IconButton, Grid 
+} from "@mui/material";
+import CloudUploadIcon from "@mui/icons-material/CloudUpload";
+import SaveIcon from "@mui/icons-material/Save";
 import { useGlobals } from "../../hooks/useGlobals";
-import { useState } from "react";
 import { MemberUpdateInput } from "../../../lib/types/member";
-import { T } from "../../../lib/types/common";
 import { sweetErrorHandling, sweetTopSmallSuccessAlert } from "../../../lib/sweetAlert";
 import { Messages, serverApi } from "../../../lib/config";
 import MemberService from "../../services/MemberService";
 
 export function Settings() {
-  const {authMember, setAuthMember} = useGlobals();
+  const { authMember, setAuthMember } = useGlobals();
+  
   const [memberImage, setMemberImage] = useState<string>(
     authMember?.memberImage
-    ? `${serverApi}/${authMember.memberImage}`
-    : "/icons/default-user.svg"
+      ? `${serverApi}/${authMember.memberImage}`
+      : "/icons/default-user.svg"
   );
-  const [memberUpdateInput, setMemberUpdateInput] = 
-  useState<MemberUpdateInput>({
-       memberNick: authMember?.memberNick,
-       memberPhone: authMember?.memberPhone,
-       memberAddress: authMember?.memberAddress,
-       memberDesc: authMember?.memberDesc,
-       memberImage: authMember?.memberImage
-  })
 
-  /** HANDLARES */
+  const [memberUpdateInput, setMemberUpdateInput] = useState<MemberUpdateInput>({
+    memberNick: authMember?.memberNick || "",
+    memberPhone: authMember?.memberPhone || "",
+    memberAddress: authMember?.memberAddress || "",
+    memberDesc: authMember?.memberDesc || "",
+    memberImage: authMember?.memberImage,
+  });
 
-  const memberNickHandler = (e: T) => {
-    memberUpdateInput.memberNick = e.target.value;
-    setMemberUpdateInput({ ...memberUpdateInput });
-  };
-  const memberPhoneHandler = (e: T) => {
-    memberUpdateInput.memberPhone = e.target.value;
-    setMemberUpdateInput({ ...memberUpdateInput });
-  };
-  const memberAddressHandler = (e: T) => {
-    memberUpdateInput.memberAddress = e.target.value;
-    setMemberUpdateInput({ ...memberUpdateInput });
-  };
-  const memberDescriptionHandler = (e: T) => {
-    memberUpdateInput.memberDesc = e.target.value;
-    setMemberUpdateInput({ ...memberUpdateInput });
+  /** HANDLERS **/
+
+  const changeInputHandler = (e: any) => {
+    const { name, value } = e.target;
+    setMemberUpdateInput((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
   };
 
-  const handSubmitButton = async () => {
-    try{
-      if(!authMember) throw new Error(Messages.error2)
-       if (
-        memberUpdateInput.memberNick === "" ||
-        memberUpdateInput.memberPhone === "" ||
-        memberUpdateInput.memberAddress === "" ||
-        memberUpdateInput.memberDesc === "" 
-       ) { 
-        throw new Error(Messages.error3)
-       }
+  const handleImageViewer = (e: any) => {
+    const file = e.target.files[0];
+    const validateImageTypes = ["image/jpg", "image/jpeg", "image/png"];
+    
+    if (file && !validateImageTypes.includes(file.type)) {
+      sweetErrorHandling(Messages.error5).then();
+    } else if (file) {
+      // MUHIM: State-ni yangi obyekt sifatida yangilash
+      setMemberUpdateInput((prev) => ({
+        ...prev,
+        memberImage: file,
+      }));
+      setMemberImage(URL.createObjectURL(file));
+    }
+  };
 
-       const member = new MemberService();
-       const result = await member.updateMember(memberUpdateInput);
-       setAuthMember(result);
+  const handleSubmitButton = async () => {
+    try {
+      if (!authMember) throw new Error(Messages.error2);
+      
+      // Validatsiya: Address va Phone bo'sh emasligini tekshirish
+      if (
+        !memberUpdateInput.memberNick || 
+        !memberUpdateInput.memberPhone || 
+        !memberUpdateInput.memberAddress
+      ) {
+        throw new Error(Messages.error3);
+      }
 
-       await sweetTopSmallSuccessAlert("Modified successfully", 700)
-    } catch(err) {
-      console.log(err)
+      const member = new MemberService();
+      // Serverga yuborilayotgan obyektni tekshirish
+      const result = await member.updateMember(memberUpdateInput);
+      
+      setAuthMember(result);
+      await sweetTopSmallSuccessAlert("Modified successfully!", 700);
+    } catch (err) {
+      console.log("Error on updateMember:", err);
       sweetErrorHandling(err).then();
     }
   };
 
-  const handleImageViewer = (e: T) => {
-    const file = e.target.files[0];
-    console.log("file:", file);
-    const fileType = file.type,
-    validateImageTypes = ["image/jpg", "image/jpeg", "image/png"];
-    if(!validateImageTypes.includes(fileType)) {
-      sweetErrorHandling(Messages.error5).then();
-    } else{
-      if(file){
-        memberUpdateInput.memberImage = file;
-        setMemberUpdateInput({ ...memberUpdateInput });
-        setMemberImage(URL.createObjectURL(file))
-      }
-    
-    }
-  };
-
   return (
-    <Box className={"settings"}>
-      <Box className={"member-media-frame"}>
-        <img src={memberImage} className={"mb-image"} />
-        <div className={"media-change-box"}>
-          <span>Upload image</span>
-          <p>JPG, JPEG, PNG formats only!</p>
-          <div className={"up-del-box"}>
-            <Button component="label" onChange={handleImageViewer} >
-              <CloudDownloadIcon />
-              <input type="file" hidden />
-            </Button>
-          </div>
-        </div>
-      </Box>
-      <Box className={"input-frame"}>
-        <div className={"long-input"}>
-          <label className={"spec-label"}>Username</label>
-          <input
-            className={"spec-input mb-nick"}
-            type="text"
-            placeholder={authMember?.memberNick}
-            value={memberUpdateInput.memberNick}
-            name="memberNick"
-            onChange={memberNickHandler}
-          />
-        </div>
-      </Box>
-      <Box className={"input-frame"}>
-        <div className={"short-input"}>
-          <label className={"spec-label"}>Phone</label>
-          <input
-            className={"spec-input mb-phone"}
-            type="text"
-            placeholder={authMember?.memberPhone ?? "no phone"}
-            value={memberUpdateInput.memberPhone}
-            name="memberPhone"
-             onChange={memberPhoneHandler}
-          />
-        </div>
-        <div className={"short-input"}>
-          <label className={"spec-label"}>Address</label>
-          <input
-            className={"spec-input  mb-address"}
-            type="text"
-            placeholder={authMember?.memberAddress ? authMember.memberAddress : "no address"}
-            value={memberUpdateInput.memberAddress}
-            name="memberAddress"
-            onChange={memberAddressHandler}
-          />
-        </div>
-      </Box>
-      <Box className={"input-frame"}>
-        <div className={"long-input"}>
-          <label className={"spec-label"}>Description</label>
-          <textarea
-            className={"spec-textarea mb-description"}
-            placeholder={
-              authMember?.memberDesc ? authMember.memberDesc : "no description"}
-            value={memberUpdateInput.memberDesc}
-            name="memberDesc"
-            onChange={memberDescriptionHandler}
-          />
-        </div>
-      </Box>
-      <Box className={"save-box"}>
-        <Button variant={"contained"} onClick={handSubmitButton}>Save</Button>
-      </Box>
+    <Box sx={{ py: 4, backgroundColor: "#f8f9fa" }}>
+      <Paper elevation={0} sx={{ p: 4, borderRadius: 4, border: "1px solid #e2e8f0" }}>
+        <Grid container spacing={4}>
+          <Grid item xs={12} md={4}>
+            <Stack alignItems="center" spacing={2}>
+              <Box sx={{ position: "relative" }}>
+                <Avatar src={memberImage} sx={{ width: 140, height: 140 }} />
+                <IconButton
+                  component="label"
+                  sx={{ position: "absolute", bottom: 5, right: 5, backgroundColor: "#3b82f6", color: "#fff" }}
+                >
+                  <CloudUploadIcon fontSize="small" />
+                  <input type="file" hidden onChange={handleImageViewer} />
+                </IconButton>
+              </Box>
+            </Stack>
+          </Grid>
+
+          <Grid item xs={12} md={8}>
+            <Stack spacing={3}>
+              <TextField
+                fullWidth
+                label="Username"
+                name="memberNick"
+                value={memberUpdateInput.memberNick}
+                onChange={changeInputHandler}
+              />
+              <TextField
+                fullWidth
+                label="Phone Number"
+                name="memberPhone"
+                value={memberUpdateInput.memberPhone}
+                onChange={changeInputHandler}
+              />
+              <TextField
+                fullWidth
+                label="Address"
+                name="memberAddress" // BU ISMLAR memberUpdateInput BILAN BIR XIL BO'LISHI SHART
+                value={memberUpdateInput.memberAddress}
+                onChange={changeInputHandler}
+              />
+              <TextField
+                fullWidth
+                multiline
+                rows={4}
+                label="Description"
+                name="memberDesc" // BU ISMLAR memberUpdateInput BILAN BIR XIL BO'LISHI SHART
+                value={memberUpdateInput.memberDesc}
+                onChange={changeInputHandler}
+              />
+              <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
+                <Button variant="contained" startIcon={<SaveIcon />} onClick={handleSubmitButton}>
+                  Save Changes
+                </Button>
+              </Box>
+            </Stack>
+          </Grid>
+        </Grid>
+      </Paper>
     </Box>
   );
 }
