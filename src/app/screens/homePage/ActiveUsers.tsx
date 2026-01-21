@@ -36,11 +36,11 @@ export default function ActiveUsers() {
                       <Card key={member._id} variant="outlined" className="active-users__card">
                     <CardOverflow>
   <AspectRatio ratio="1">
-    <img src={imagePath} alt="" style={{ borderRadius: '10px' }} />
+    <img src={imagePath} alt="" style={{ borderRadius: '50%',  height: "180", background: 'radial-gradient(circle at top, #0b2e1a, #05140c)' }} />
   </AspectRatio>
 </CardOverflow>
 
-<CardOverflow variant="soft" className="active-users__info" sx={{background: "green"}}>
+<CardOverflow variant="soft" className="active-users__info" sx={{background: "grenYellow"}}>
   <Stack className="active-users__text" alignItems="center">
     <Typography className="active-users__name">
       {member.memberNick}
@@ -66,3 +66,4 @@ export default function ActiveUsers() {
     </div>
   );
 }
+

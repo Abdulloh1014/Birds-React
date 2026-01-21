@@ -92,17 +92,34 @@ const prcessOrderHandler = async (e: T) => {
                     <Box key={order._id} className={"order-main-box"}>
                         <Box className={"order-box-scroll"}>
                            {order?.orderItems?.map((item: OrderItem) => {
-                            const product: Product = order.productData.filter(
-                                (ele: Product) => item.productId === ele._id
-                            )[0];
-                            const imagePath = `${serverApi}/${product.productImages[0]}`;
+
+
+                            // const product: Product = order.productData.filter(
+                            //     (ele: Product) => item.productId === ele._id
+                            // )[0];
+                            // const imagePath = `${serverApi}/${product.productImages[0]}`;
+
+                            const product = order.productData?.find(
+  (ele: Product) => item.productId === ele._id
+);
+
+const imagePath = product?.productImages?.[0]
+  ? `${serverApi}/${product.productImages[0]}`
+  : "/icons/noimage.svg";   // yoki boshqa placeholder
+
+
                             return (
                                <Box key={item._id} className={"orders-name-price"}> 
                                  <img
                                  src={imagePath}
                                  className={"order-dish-img"}
                                   />
-                                  <p className={"title-dish"}>{product.productName}</p>
+                                  {/* <p className={"title-dish"}>{product.productName}</p> */}
+                                  <p className={"title-dish"}>
+  {product?.productName || "Mahsulot o‘chirilgan"}
+</p>
+
+
                                   <Box className={"price-box"}>
                                     <p>$ {item.itemPrice}</p>
                                     <img src={"/icons/close.svg"} />

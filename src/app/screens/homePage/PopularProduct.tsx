@@ -20,6 +20,7 @@ import { createSelector } from "reselect";
 import { retrievePopularProduct } from "./selector";
 import { Product } from "../../../lib/types/product";
 import { serverApi } from "../../../lib/config";
+import { useHistory } from "react-router-dom";
 
 const popularProductRetriever = createSelector(
   retrievePopularProduct,
@@ -28,6 +29,11 @@ const popularProductRetriever = createSelector(
 
 export default function PopularDishes() {
   const { popularProduct } = useSelector(popularProductRetriever);
+  const history = useHistory();
+const choseDishHandler = (id: string) => {
+  history.push(`/products/${id}`);
+};
+
 
   return (
     <div className="popular-dishes-frame">
@@ -58,6 +64,8 @@ export default function PopularDishes() {
                           }}
                         >
                           <img
+                           key={product._id}
+                            onClick={() => choseDishHandler(product._id)}
                             src={imagePath}
                             alt=""
                             style={{
@@ -65,6 +73,7 @@ export default function PopularDishes() {
                               height: "340px",
                               objectFit: "cover",
                               display: "block",
+                              cursor: "pointer"
                             }}
                           />
                         </CardOverflow>

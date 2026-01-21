@@ -97,7 +97,7 @@ const handleLogoutRequest = async () => {
             <HelpPage />
           </Route>
           <Route path="/">
-            <HomePage />
+            <HomePage onAdd={onAdd} />
           </Route>
         </Switch>
         <Footer/>

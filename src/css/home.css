@@ -270,7 +270,7 @@
 }
 
 .homepage .active-users__main {
-  margin-top: 95px;
+  margin-top: 45px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -283,7 +283,6 @@
     font-size: 36px;
     line-height: 43px;
     color:#006e0d;
-    margin-bottom: 20px;
 
 }
 
@@ -293,7 +292,7 @@
   flex-direction: row;
   justify-content: space-between;
   display: flex;
-  margin-top: 25px;
+  /* margin-top: 25px; */
 
 }
 
@@ -306,7 +305,7 @@
 
 .homepage .active-users__status {
   position: absolute;
-  margin-top: 10px;
+
   z-index: 100;
   width: 90px;
   height: 30px;
@@ -430,3 +429,11 @@
     color:#006e0d;
    
 } 
+
+
+
+.active-users {
+  padding: 10px 0;
+  background: radial-gradient(circle at top, #0b2e1a, #05140c);
+}
+

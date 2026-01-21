@@ -13,6 +13,7 @@ import { ProductCollection } from "../../../lib/enums/product.enum";
 import MemberService from "../../services/MemberService";
 import { Member } from "../../../lib/types/member";
 import "./../../../css/home.css";
+import { CartItem } from "../../../lib/types/search";
 
 
 
@@ -26,10 +27,13 @@ const actionDispatch = (dispatch: Dispatch) => ({
 
 });
 
+interface HomePageProps {
+  onAdd: (item: CartItem) => void;
+}
 
-export default function HomePage() {
+export default function HomePage(props: HomePageProps) {
   const { setPopularProduct, setNewProduct, setTopUsers } = actionDispatch(useDispatch());
-
+ const { onAdd } = props;
 
 useEffect(() => {
   // Backend server data fetch => Data
@@ -71,7 +75,7 @@ useEffect(() => {
 
   return <div className={"homepage"}>
     <PopularDishes/>
-    <NewDishes/>
+    <NewDishes  onAdd={onAdd}/>
     <Advertisement/>
     <ActiveUsers/>
     <Events/>

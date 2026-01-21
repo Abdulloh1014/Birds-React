@@ -16,20 +16,25 @@ import { Product } from "../../../lib/types/product";
 import { serverApi } from "../../../lib/config";
 import { ProductCollection } from "../../../lib/enums/product.enum";
 import { useHistory } from "react-router-dom";
+import { CartItem } from "../../../lib/types/search";
 
 
-
+interface HomePageProps {
+  onAdd: (item: CartItem) => void;
+}
 const newProductRetriever = createSelector(
   retrieveNewProduct,
   (newProduct) => ({ newProduct })
 );
 
-export default function NewDishes() {
-
+export default function NewDishes(props: HomePageProps) {
+  const { onAdd } = props;
   const history = useHistory();
-const choseDishHandler = (id: string) => {
+  const choseDishHandler = (id: string) => {
   history.push(`/products/${id}`);
 };
+
+
 
 
 
@@ -56,6 +61,8 @@ const choseDishHandler = (id: string) => {
                      <CardOverflow sx={{ p: 0, borderTopLeftRadius: 21,
                                                borderTopRightRadius: 21,}}>
                             <img
+                            key={product._id}
+                            onClick={() => choseDishHandler(product._id)}
                             src={imagePath}
                              alt=""
                              style={{
@@ -63,7 +70,7 @@ const choseDishHandler = (id: string) => {
                              height: "300px",
                              objectFit: "cover",
                              display: "block",
-                             
+                             cursor: "pointer"
                              }}
                              />
                       </CardOverflow>
@@ -130,8 +137,19 @@ const choseDishHandler = (id: string) => {
 
                       <CardOverflow>
                         <Button variant="solid" color="success" size="lg"
-                        key={product._id}
-                         onClick={() => choseDishHandler(product._id)}
+                        onClick={(e) => {
+                onAdd({
+                  _id: product._id,     // ✅
+                  quantity: 1,
+                  name: product.productName,
+                  price: product.productPrice,
+                  image: product.productImages[0],
+                   });
+
+                    e.stopPropagation();
+               }}
+      
+
                         >
                           Add to cart
                         </Button>
