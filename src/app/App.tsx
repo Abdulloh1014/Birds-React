@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Route, Switch, useLocation } from "react-router-dom";
 import  HomePage  from "./screens/homePage";
 import  ProductsPage  from "./screens/productsPage";
@@ -17,6 +17,17 @@ import { useGlobals } from "./hooks/useGlobals";
 import "../css/app.css";
 import "../css/navbar.css";
 import "../css/footer.css";
+
+function ScrollToTop() {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+
+  return null;
+}
+
 
 function App() {
   const location = useLocation();
@@ -83,6 +94,7 @@ const handleLogoutRequest = async () => {
         /> 
 
         )}
+        <ScrollToTop />
         <Switch>
           <Route path="/products">
             <ProductsPage onAdd={onAdd}/>

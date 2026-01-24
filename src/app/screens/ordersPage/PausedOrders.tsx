@@ -13,6 +13,7 @@ import { T } from "../../../lib/types/common";
 import { OrderStatus } from "../../../lib/enums/order.enum";
 import { useGlobals } from "../../hooks/useGlobals";
 import OrderService from "../../services/OrderService";
+import { useHistory } from "react-router-dom";
 
 const pausedOrdersRetriever = createSelector(
   retrievePausedOrders,
@@ -25,6 +26,7 @@ interface PausedOrdersProps {
 
 export default function PausedOrders(props: PausedOrdersProps) {
   const { setValue } = props;
+  const history = useHistory();
   const { authMember, setOrderBuilder } = useGlobals();
   const { pausedOrders } = useSelector(pausedOrdersRetriever);
 
@@ -48,25 +50,63 @@ export default function PausedOrders(props: PausedOrdersProps) {
     }
   };
 
-  const processOrderHandler = async (e: T) => {
-    try {
-      if (!authMember) throw new Error(Messages.error2);
-      const orderId = e.currentTarget.value;
-      const input: OrderUpdateInput = {
-        orderId: orderId,
-        orderStatus: OrderStatus.PROCESS,
-      };
 
-      if (window.confirm("Do you want to proceed with payment?")) {
-        const order = new OrderService();
-        await order.updateOrder(input);
-        setValue("2");
-        setOrderBuilder(new Date());
-      }
-    } catch (err) {
-      sweetErrorHandling(err).then();
+
+  // const processOrderHandler = async (e: T) => {
+  //   try {
+  //     if (!authMember) throw new Error(Messages.error2);
+  //     const orderId = e.currentTarget.value;
+  //     const input: OrderUpdateInput = {
+  //       orderId: orderId,
+  //       orderStatus: OrderStatus.PROCESS,
+  //     };
+
+  //     if (window.confirm("Do you want to proceed with payment?")) {
+  //       const order = new OrderService();
+  //       await order.updateOrder(input);
+  //       setValue("2");
+  //       setOrderBuilder(new Date());
+  //     }
+  //   } catch (err) {
+  //     sweetErrorHandling(err).then();
+  //   }
+  // };
+
+
+  const processOrderHandler = async (e: T) => {
+  try {
+    if (!authMember) throw new Error(Messages.error2);
+
+    // 1. MANZILNI TEKSHIRISH
+    if (!authMember.memberAddress || authMember.memberAddress.trim() === "") {
+      // Agar manzil bo'lmasa, ogohlantirish chiqarib, jarayonni to'xtatamiz
+      await sweetErrorHandling(new Error("Please enter your address in the profile section to place an order!"));
+      
+      // Ixtiyoriy: Foydalanuvchini avtomatik Settings sahifasiga yuborish mumkin
+      history.push("/member-page"); 
+      return;
     }
-  };
+
+    const orderId = e.currentTarget.value;
+    const input: OrderUpdateInput = {
+      orderId: orderId,
+      orderStatus: OrderStatus.PROCESS,
+    };
+
+    if (window.confirm("Do you want to proceed with payment?")) {
+      const order = new OrderService();
+      await order.updateOrder(input);
+      setValue("2"); // Processed orders tabiga o'tkazish
+      setOrderBuilder(new Date()); // Orderlarni qayta render qilish
+    }
+  } catch (err) {
+    sweetErrorHandling(err).then();
+  }
+};
+
+
+
+
 
   return (
     <Stack spacing={3} sx={{ mt: 2 }}>

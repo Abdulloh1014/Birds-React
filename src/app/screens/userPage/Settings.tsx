@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { 
   Box, Container, Stack, Typography, Button, TextField, 
   Avatar, Paper, IconButton, Grid 
@@ -13,7 +13,7 @@ import MemberService from "../../services/MemberService";
 
 export function Settings() {
   const { authMember, setAuthMember } = useGlobals();
-  
+
   const [memberImage, setMemberImage] = useState<string>(
     authMember?.memberImage
       ? `${serverApi}/${authMember.memberImage}`
@@ -27,6 +27,21 @@ export function Settings() {
     memberDesc: authMember?.memberDesc || "",
     memberImage: authMember?.memberImage,
   });
+
+
+    // authMember o'zgarganda local inputlarni ham yangilash
+    useEffect(() => {
+    if (authMember) {
+    setMemberUpdateInput({
+      memberNick: authMember.memberNick || "",
+      memberPhone: authMember.memberPhone || "",
+      memberAddress: authMember.memberAddress || "",
+      memberDesc: authMember.memberDesc || "",
+      memberImage: authMember.memberImage,
+    });
+  }
+}, [authMember]);
+
 
   /** HANDLERS **/
 

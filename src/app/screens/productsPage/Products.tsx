@@ -32,7 +32,7 @@ export default function Products(props: { onAdd: (item: CartItem) => void }) {
 
   const [productSearch, setProductSearch] = useState<ProductInquiry>({
     page: 1,
-    limit: 8,
+    limit: 4,
     order: "createdAt",
     productCollection: ProductCollection.PARROT,
     search: "",
@@ -157,7 +157,7 @@ export default function Products(props: { onAdd: (item: CartItem) => void }) {
                       <Box sx={{ position: "relative", m: 1.5 }}>
                         <CardMedia
                           component="img"
-                          height="220"
+                          height="320"
                           image={`${serverApi}/${product.productImages[0]}`}
                           sx={{ borderRadius: "20px", cursor: "pointer" }}
                           onClick={() => history.push(`/products/${product._id}`)}
@@ -223,7 +223,8 @@ export default function Products(props: { onAdd: (item: CartItem) => void }) {
                 ))
               ) : (
                 <Box sx={{ width: "100%", textAlign: "center", py: 10 }}>
-                  <Typography variant="h6" color="text.secondary">Hozircha qushlar mavjud emas</Typography>
+                  <Typography variant="h6" color="text.secondary">There are currently no birds available.
+</Typography>
                 </Box>
               )}
             </Grid>

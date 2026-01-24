@@ -42,7 +42,7 @@ export enum ProductCollection {
   PIGEONS = "PIGEONS",       // Kaptar
   QUAILS = "QUAILS",         // Bedana
   PHEASANTS = "PHEASANTS",   // Fazan
-  PEACOCKS = "PEACOCKS",     // Tovus
+  PEAFOWL = "PEAFOWL",     // Tovus
   EXOTIC = "EXOTIC",
   CAGE = "CAGE",   // Qush qafasi
 }

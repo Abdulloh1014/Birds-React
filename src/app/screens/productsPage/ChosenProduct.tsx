@@ -114,82 +114,101 @@ export default function ChosenProduct(props: ChosenProductsProps) {
           </Grid>
 
           {/* O'NG TOMON: MA'LUMOTLAR */}
-          <Grid item xs={12} md={6}>
-            <Paper elevation={0} sx={{ p: 3, borderRadius: "16px", background: "#fff" }}>
-              <Stack spacing={3}>
-                <Box>
-                  <Typography variant="h4" fontWeight="bold" color="#222">
-                    {chosenProduct?.productName}
-                  </Typography>
-                  <Stack direction="row" spacing={2} alignItems="center" mt={1}>
-                    {/* <Chip label={restaurant?.memberNick} color="primary" variant="outlined" size="small" /> */}
-                    <Typography variant="body2" color="text.secondary">
-                      {restaurant?.memberPhone}
-                    </Typography>
-                  </Stack>
-                </Box>
 
-                <Stack direction="row" spacing={2} alignItems="center">
-                  <Rating value={4.5} precision={0.5} readOnly />
-                  <Stack direction="row" alignItems="center" color="text.secondary">
-                    <RemoveRedEyeIcon sx={{ fontSize: 20, mr: 0.5 }} />
-                    <Typography variant="body2">{chosenProduct?.productViews} views</Typography>
-                  </Stack>
-                </Stack>
 
-                <Divider height="1" width="100%" bg="#eee" />
+         <Grid item xs={12} md={6}>
+  <Paper elevation={0} sx={{ p: 3, borderRadius: "16px", background: "#fff", height: "565px" }}>
+    <Stack spacing={3}>
+      <Box>
+        <Typography variant="h4" fontWeight="bold" color="#222">
+          {chosenProduct?.productName}
+        </Typography>
+        <Stack direction="row" spacing={2} alignItems="center" mt={1}>
+          <Typography variant="body2" color="text.secondary">
+            {restaurant?.memberPhone}
+          </Typography>
+        </Stack>
+      </Box>
 
-                <Box sx={{ 
-  minHeight: "150px", // Eng kam balandlik
-  maxHeight: "250px", // Maksimal balandlik (agar matn juda ko'p bo'lsa)
-  overflowY: "auto",   // Matn sig'masa skroll paydo bo'ladi
-  pr: 1,               // Skroll bar uchun o'ng tomondan ozgina joy
-  mb: 2,               // Pastki elementdan masofa
-  "&::-webkit-scrollbar": { width: "4px" }, // Skrollni ingichka va chiroyli qilish
-  "&::-webkit-scrollbar-thumb": { background: "#ccc", borderRadius: "10px" }
-}}>
-  <Typography variant="h6" gutterBottom fontWeight="bold">
-    Description
-  </Typography>
-  <Typography variant="body1" color="text.secondary" lineHeight={1.8}>
-    {chosenProduct?.productDesc || "No description available for this delicious product."}
-  </Typography>
-</Box>
+      <Stack direction="row" spacing={2} alignItems="center">
+        <Rating value={4.5} precision={0.5} readOnly />
+        <Stack direction="row" alignItems="center" color="text.secondary">
+          <RemoveRedEyeIcon sx={{ fontSize: 20, mr: 0.5 }} />
+          <Typography variant="body2">{chosenProduct?.productViews} views</Typography>
+        </Stack>
+      </Stack>
 
-                <Box sx={{ p: 2, borderRadius: "12px", background: "#f0f7ff", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                  <Typography variant="h5" fontWeight="bold" color="#1976d2">
-                    Price: ${chosenProduct?.productPrice}
-                  </Typography>
-                </Box>
+      {/* YANGI QO'SHILGAN: Age va Gender uchun chiroyli qator */}
+      <Stack direction="row" spacing={2}>
+        <Box sx={{ px: 2, py: 1, borderRadius: "8px", background: "#f5f5f5", border: "1px solid #e0e0e0", display: "flex", alignItems: "center", gap: 1 }}>
+          <Typography variant="caption" fontWeight="bold" color="text.secondary">AGE:</Typography>
+          <Typography variant="body2" fontWeight="bold">{chosenProduct?.productAge || "N/A"}</Typography>
+        </Box>
+        <Box sx={{ px: 2, py: 1, borderRadius: "8px", background: "#f5f5f5", border: "1px solid #e0e0e0", display: "flex", alignItems: "center", gap: 1 }}>
+          <Typography variant="caption" fontWeight="bold" color="text.secondary">GENDER:</Typography>
+          <Typography variant="body2" fontWeight="bold" sx={{ textTransform: "capitalize" }}>
+            {chosenProduct?.productGender || "N/A"}
+          </Typography>
+        </Box>
+      </Stack>
 
-                <Button 
-                  variant="contained" 
-                  size="large"
-                  fullWidth
-                  startIcon={<ShoppingCartIcon />}
-                  sx={{ 
-                    borderRadius: "30px", 
-                    py: 1.5, 
-                    fontSize: "1.1rem",
-                    textTransform: "none",
-                    boxShadow: "0 4px 12px rgba(25, 118, 210, 0.3)"
-                  }}
-                  onClick={(e) => {
-                    onAdd({
-                      _id: chosenProduct._id,
-                      quantity: 1,
-                      name: chosenProduct.productName,
-                      price: chosenProduct.productPrice,
-                      image: chosenProduct.productImages[0],
-                    });
-                    e.stopPropagation();
-                  }}
-                >
-                  Add To Basket
-                </Button>
-              </Stack>
-            </Paper>
-          </Grid>
+      <Divider height="1" width="100%" bg="#eee" />
+
+      <Box sx={{ 
+        minHeight: "100px", 
+        maxHeight: "180px", 
+        overflowY: "auto",   
+        pr: 1,               
+        "&::-webkit-scrollbar": { width: "4px" }, 
+        "&::-webkit-scrollbar-thumb": { background: "#ccc", borderRadius: "10px" }
+      }}>
+        <Typography variant="h6" gutterBottom fontWeight="bold">
+          Description
+        </Typography>
+        <Typography variant="body1" color="text.secondary" lineHeight={1.6}>
+          {chosenProduct?.productDesc || "No description available for this beautiful bird."}
+        </Typography>
+      </Box>
+
+      <Box sx={{ p: 2, borderRadius: "12px", background: "#f0f7ff", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+        <Typography variant="h5" fontWeight="bold" color="#1976d2">
+          Price: ${chosenProduct?.productPrice}
+        </Typography>
+      </Box>
+
+      {/* TUGMA: Yashil rangga o'zgartirildi */}
+      <Button 
+        variant="contained" 
+        size="large"
+        fullWidth
+        startIcon={<ShoppingCartIcon />}
+        sx={{ 
+          borderRadius: "30px", 
+          py: 1.5, 
+          fontSize: "1.1rem",
+          textTransform: "none",
+          backgroundColor: "#2e7d32", // Green rang
+          "&:hover": {
+            backgroundColor: "#1b5e20", // To'qroq yashil hover bo'lganda
+          },
+          boxShadow: "0 4px 12px rgba(46, 125, 50, 0.3)"
+        }}
+        onClick={(e) => {
+          onAdd({
+            _id: chosenProduct._id,
+            quantity: 1,
+            name: chosenProduct.productName,
+            price: chosenProduct.productPrice,
+            image: chosenProduct.productImages[0],
+          });
+          e.stopPropagation();
+        }}
+      >
+        Add To Basket
+      </Button>
+    </Stack>
+  </Paper>
+</Grid>
 
         </Grid>
       </Container>

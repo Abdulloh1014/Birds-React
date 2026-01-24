@@ -68,9 +68,14 @@ export default function ProcessOrders(props: ProcessOrdersProps) {
               <Typography variant="h6" sx={{ fontWeight: 700, fontSize: "16px" }}>
                 Order #{order._id.toString().slice(-6).toUpperCase()}
               </Typography>
+
+
               <Typography variant="caption" color="text.secondary">
-                Tayyorlanmoqda: {moment(order.createdAt).fromNow()}
-              </Typography>
+  Paid at: {order?.updatedAt ? moment(order.updatedAt).format("YYYY-MM-DD HH:mm") : ""} 
+  ({moment(order.updatedAt).fromNow()})
+</Typography>
+
+
             </Box>
             <Chip 
               label="In Process" 
@@ -116,7 +121,7 @@ export default function ProcessOrders(props: ProcessOrdersProps) {
           <Box sx={{ p: 2, bgcolor: "#f6fbff", borderRadius: "12px" }}>
             <Stack direction="row" justifyContent="space-between" alignItems="center">
               <Box>
-                <Typography variant="caption" color="text.secondary" display="block">To'lov miqdori (Delivery bilan)</Typography>
+                <Typography variant="caption" color="text.secondary" display="block">Total amount (including delivery)</Typography>
                 <Typography variant="h6" fontWeight="900" color="primary.main">
                   ${order.orderTotal}
                 </Typography>
@@ -134,7 +139,7 @@ export default function ProcessOrders(props: ProcessOrdersProps) {
                   px: 3,
                 }}
               >
-                Tasdiqlash
+                Confirm
               </Button>
             </Stack>
           </Box>
@@ -144,7 +149,7 @@ export default function ProcessOrders(props: ProcessOrdersProps) {
       {(!processOrders || processOrders.length === 0) && (
         <Stack alignItems="center" sx={{ py: 10 }}>
           <img src="/icons/noimage-list.svg" style={{ width: 140, opacity: 0.5 }} alt="no-data" />
-          <Typography sx={{ mt: 2, color: "text.secondary", fontWeight: 500 }}>Hozircha jarayonda buyurtmalar yo'q</Typography>
+          <Typography sx={{ mt: 2, color: "text.secondary", fontWeight: 500 }}>There are currently no orders in progress.</Typography>
         </Stack>
       )}
     </Stack>

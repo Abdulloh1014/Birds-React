@@ -111,61 +111,98 @@ export default function OrdersPage() {
               </Paper>
 
               {/* Payment Card Section */}
-              <Paper sx={{ p: 3, borderRadius: "12px", bgcolor: "#2c3e50", color: "#fff" }}>
-                <Typography variant="subtitle2" sx={{ mb: 2, opacity: 0.8, letterSpacing: 1 }}>PAYMENT CARD</Typography>
-                
-                <Stack spacing={2.5}>
-                  <TextField 
-                    fullWidth 
-                    placeholder="Card Number" 
-                    variant="standard"
-                    InputProps={{ 
-                      disableUnderline: true, 
-                      sx: { color: "#fff", bgcolor: "rgba(255,255,255,0.08)", px: 2, py: 1, borderRadius: "6px" } 
-                    }}
-                  />
-                  
-                  <Grid container spacing={2}>
-                    <Grid item xs={6}>
-                      <TextField 
-                        placeholder="MM/YY" 
-                        variant="standard"
-                        InputProps={{ 
-                          disableUnderline: true, 
-                          sx: { color: "#fff", bgcolor: "rgba(255,255,255,0.08)", px: 2, py: 1, borderRadius: "6px" } 
-                        }}
-                      />
-                    </Grid>
-                    <Grid item xs={6}>
-                      <TextField 
-                        placeholder="CVV" 
-                        variant="standard"
-                        InputProps={{ 
-                          disableUnderline: true, 
-                          sx: { color: "#fff", bgcolor: "rgba(255,255,255,0.08)", px: 2, py: 1, borderRadius: "6px" } 
-                        }}
-                      />
-                    </Grid>
-                  </Grid>
+              <Paper 
+  sx={{ 
+    p: 3, 
+    borderRadius: "20px", 
+    background: "linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%)", // Gradiyent qo'shildi
+    color: "#fff",
+    boxShadow: "0 10px 20px rgba(0,0,0,0.2)",
+    position: "relative",
+    overflow: "hidden"
+  }}
+>
+  {/* Karta orqasidagi dekorativ doira */}
+  <Box sx={{ 
+    position: "absolute", top: -50, right: -50, width: 150, height: 150, 
+    borderRadius: "50%", bgcolor: "rgba(255,255,255,0.1)" 
+  }} />
 
-                  <TextField 
-                    fullWidth 
-                    placeholder="Card Holder Name" 
-                    variant="standard"
-                    InputProps={{ 
-                      disableUnderline: true, 
-                      sx: { color: "#fff", bgcolor: "rgba(255,255,255,0.08)", px: 2, py: 1, borderRadius: "6px" } 
-                    }}
-                  />
+  <Stack spacing={3}>
+    <Stack direction="row" justifyContent="space-between" alignItems="center">
+      <Typography variant="h6" sx={{ fontWeight: 700, fontStyle: 'italic', letterSpacing: 1.5 }}>
+        CREDIT CARD
+      </Typography>
+      {/* Karta chipi imitatsiyasi */}
+      <Box sx={{ 
+        width: 45, height: 35, bgcolor: "#fbbf24", borderRadius: "6px", 
+        background: "linear-gradient(135deg, #fbbf24 0%, #d97706 100%)",
+        position: 'relative',
+        '&::after': { content: '""', position: 'absolute', top: 5, left: 5, right: 5, bottom: 5, border: '1px solid rgba(0,0,0,0.1)' }
+      }} />
+    </Stack>
 
-                  <Stack direction="row" spacing={1} justifyContent="center" sx={{ mt: 1 }}>
-                    <img src="/icons/western-card.svg" height="20" alt="card" />
-                    <img src="/icons/master-card.svg" height="20" alt="card" />
-                    <img src="/icons/paypal-card.svg" height="20" alt="card" />
-                    <img src="/icons/visa-card.svg" height="20" alt="card" />
-                  </Stack>
-                </Stack>
-              </Paper>
+    <TextField 
+      fullWidth 
+      placeholder="0000 0000 0000 0000" 
+      variant="standard"
+      InputProps={{ 
+        disableUnderline: true, 
+        sx: { 
+          color: "#fff", 
+          fontSize: "1.4rem", 
+          letterSpacing: 4,
+          fontFamily: "'Courier New', Courier, monospace", // Karta raqami shrifti
+          bgcolor: "transparent",
+        } 
+      }}
+    />
+
+    <Grid container spacing={3} alignItems="flex-end">
+      <Grid item xs={7}>
+        <Typography variant="caption" sx={{ opacity: 0.7, display: 'block', mb: 0.5 }}>CARD HOLDER</Typography>
+        <TextField 
+          fullWidth 
+          placeholder="FULL NAME" 
+          variant="standard"
+          InputProps={{ 
+            disableUnderline: true, 
+            sx: { color: "#fff", fontSize: "0.9rem", textTransform: "uppercase" } 
+          }}
+        />
+      </Grid>
+      <Grid item xs={3}>
+        <Typography variant="caption" sx={{ opacity: 0.7, display: 'block', mb: 0.5 }}>EXPIRES</Typography>
+        <TextField 
+          placeholder="MM/YY" 
+          variant="standard"
+          InputProps={{ 
+            disableUnderline: true, 
+            sx: { color: "#fff", fontSize: "0.9rem" } 
+          }}
+        />
+      </Grid>
+      <Grid item xs={2}>
+        <Typography variant="caption" sx={{ opacity: 0.7, display: 'block', mb: 0.5 }}>CVV</Typography>
+        <TextField 
+          placeholder="***" 
+          variant="standard"
+          InputProps={{ 
+            disableUnderline: true, 
+            sx: { color: "#fff", fontSize: "0.9rem" } 
+          }}
+        />
+      </Grid>
+    </Grid>
+
+    <Stack direction="row" spacing={1} justifyContent="flex-end">
+      <img src="/icons/visa-card.svg" height="25" alt="visa" style={{ filter: "brightness(0) invert(1)" }} />
+      <img src="/icons/master-card.svg" height="25" alt="master" />
+    </Stack>
+  </Stack>
+
+  
+</Paper>
 
             </Stack>
           </Grid>

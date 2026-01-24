@@ -141,7 +141,7 @@ export default function FinishedOrders() {
           {/* Final Totals */}
           <Stack direction="row" justifyContent="space-between" alignItems="center">
             <Typography variant="caption" color="text.secondary">
-              Muvaffaqiyatli yakunlandi
+              Successfully completed.
             </Typography>
             <Box sx={{ textAlign: "right" }}>
               <Typography variant="caption" color="text.secondary" sx={{ mr: 1 }}>Total Paid:</Typography>
@@ -161,7 +161,7 @@ export default function FinishedOrders() {
             alt="empty"
           />
           <Typography color="text.secondary" sx={{ mt: 2 }}>
-            Tugallangan buyurtmalar mavjud emas
+            There are no completed orders.
           </Typography>
         </Stack>
       )}

@@ -45,7 +45,7 @@ export default function HomeNavbar(props: HomeNavbarProps) {
   useEffect(() => {
     const interval = setInterval(() => {
       setIndex((prev) => (prev + 1) % banners.length);
-    }, 3000);
+    }, 4000);
 
     return () => clearInterval(interval);
   }, []);
@@ -99,6 +99,7 @@ export default function HomeNavbar(props: HomeNavbarProps) {
             onRemove={onRemove}
             onDelete={onDelete}
             onDeleteAll={onDeleteAll}
+            
           />
 
           {!authMember && (
