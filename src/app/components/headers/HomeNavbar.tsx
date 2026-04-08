@@ -130,7 +130,11 @@ export default function HomeNavbar(props: HomeNavbarProps) {
               }
               onClick={handleLogoutClick}
             />
+            
           )}
+          <span className="user-name" onClick={handleLogoutClick}>
+              {authMember?.memberNick}
+            </span>
 
           <Menu
             anchorEl={anchorEl}

@@ -60,7 +60,7 @@ export default function Products(props: { onAdd: (item: CartItem) => void }) {
               Bird Paradise
             </Typography>
             <Typography variant="body1" sx={{ color: "#52796f" }}>
-              Tabiatning eng go'zal ovozlarini uyingizga olib keling
+             Bring the most beautiful sounds of nature into your home.
             </Typography>
           </Box>
 
@@ -79,7 +79,7 @@ export default function Products(props: { onAdd: (item: CartItem) => void }) {
           >
             <InputBase
               sx={{ ml: 2, flex: 1, fontWeight: 500 }}
-              placeholder="Qushlarni qidirish..."
+              placeholder="Search for birds..."
               value={searchText}
               onChange={(e) => setSearchText(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && setProductSearch({ ...productSearch, search: searchText })}

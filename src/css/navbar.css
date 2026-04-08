@@ -25,7 +25,16 @@
   background-image: url("/public/img/bird4.jpeg");
 }
 
-
+.home-navbar .btn-frame .user-name{
+  font-family: Poppins;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 17px;
+  line-height: 25px;
+  color: #ffffff;
+  margin-left: 10px;
+ 
+}
 
 .home-navbar .menu {
   height: 73px;
@@ -155,6 +164,7 @@
 width: 50px;
 height: 50px;
 border-radius: 24px;
+
 }
 
 

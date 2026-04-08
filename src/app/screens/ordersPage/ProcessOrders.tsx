@@ -38,7 +38,7 @@ export default function ProcessOrders(props: ProcessOrdersProps) {
         orderStatus: OrderStatus.FINISH,
       };
 
-      if (window.confirm("Taom yetkazib berildimi va qabul qildingizmi?")) {
+      if (window.confirm("Was the product delivered, and did you receive it?")) {
         const order = new OrderService();
         await order.updateOrder(input);
         setValue("3"); // Finished tabga o'tkazish

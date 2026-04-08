@@ -59,7 +59,7 @@ export default function Basket(props: BasketProps) {
                 onClick={toggleDrawer(true)} 
                 sx={{ 
                     position: "relative", 
-                    color: "#222",
+                    color: "gold",
                     "&:hover": { bgcolor: "rgba(0,0,0,0.04)" } 
                 }}
             >
@@ -120,8 +120,8 @@ export default function Basket(props: BasketProps) {
                         {cartItems.length === 0 ? (
                             <Stack alignItems="center" justifyContent="center" sx={{ height: "60%" }}>
                                 <img src="/icons/empty-cart.svg" width={100} alt="Empty" style={{ opacity: 0.3, marginBottom: "20px" }} />
-                                <Typography variant="h6" color="text.secondary" fontWeight={600}>Savatcha bo'sh</Typography>
-                                <Typography variant="body2" color="text.disabled">Hali hech narsa qo'shmadingiz</Typography>
+                                <Typography variant="h6" color="text.secondary" fontWeight={600}>Your cart is empty.</Typography>
+                                <Typography variant="body2" color="text.disabled">You haven’t added anything yet.</Typography>
                             </Stack>
                         ) : (
                             cartItems.map((item) => (

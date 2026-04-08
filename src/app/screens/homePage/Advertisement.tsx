@@ -40,6 +40,11 @@ export default function Advertisement() {
             title: "Scarlet Macaw",
             img: "/img/parrot2.jpg",
             desc: "Highly intelligent large parrot native to Central and South America. Known for vivid colors and ability to mimic human speech."
+        },
+        {
+            title: "Lyrebird",
+            img: "/img/lyreb.jpg",
+            desc: "Lyrebirds can imitate almost any sound they hear, including chainsaws, car alarms, camera shutters, and even human voices."
         }
     ];
 

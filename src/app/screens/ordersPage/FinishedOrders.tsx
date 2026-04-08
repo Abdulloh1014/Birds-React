@@ -33,7 +33,7 @@ export default function FinishedOrders() {
         orderStatus: OrderStatus.DELETE,
       };
 
-      if (window.confirm("Ushbu buyurtmani tarixdan o'chirmoqchimisiz?")) {
+      if (window.confirm("Do you want to delete this order from history?")) {
         const order = new OrderService();
         await order.updateOrder(input);
         setOrderBuilder(new Date()); // Ro'yxatni yangilash uchun
@@ -75,7 +75,7 @@ export default function FinishedOrders() {
               <Typography variant="caption" color="text.secondary">
                 ID: {order._id.toString().slice(-6).toUpperCase()}
               </Typography>
-              <Tooltip title="O'chirish">
+              <Tooltip title="Deleted">
                 <IconButton 
                   size="small" 
                   color="error" 
