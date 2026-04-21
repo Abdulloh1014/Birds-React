@@ -120,7 +120,7 @@ export default function AuthenticationModal(props: AuthenticationModalProps) {
 
             {/* Brend Logosi (Kichik shaklda) */}
             <Box sx={{ mb: 3 }}>
-              <img src="/icons/icon.jpeg" style={{ width: "60px", borderRadius: "50%" }} alt="logo" />
+              <img src="/icons/Icon.jpeg" style={{ width: "60px", borderRadius: "50%" }} alt="logo" />
             </Box>
 
             <Typography variant="h4" sx={{ fontWeight: 800, mb: 1, color: "#222", letterSpacing: "-1px" }}>

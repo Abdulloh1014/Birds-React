@@ -58,7 +58,7 @@ export default function HomeNavbar(props: HomeNavbarProps) {
 
         <Box className="brand-logo">
           <NavLink to="/">
-            <img className="brand-logo-img" src="/icons/icon.jpeg" />
+            <img className="brand-logo-img" src="/icons/Icon.jpeg" />
           </NavLink>
         </Box>
         

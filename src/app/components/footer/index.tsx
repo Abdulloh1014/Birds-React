@@ -78,7 +78,7 @@ export default function Footer() {
             <Stack spacing={3}>
               <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
                 <img
-                  src="/icons/icon.jpeg"
+                  src="/icons/Icon.jpeg"
                   alt="Birds Magazine"
                   width={60}
                   height={60}
